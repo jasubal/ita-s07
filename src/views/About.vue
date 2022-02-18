@@ -1,5 +1,5 @@
 <template>
-<div id="about" class="v-comp">
+<div id="v-about" class="v-comp">
   <h1>About Page</h1>
   <p>This is about page...</p>
 </div>

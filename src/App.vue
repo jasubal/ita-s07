@@ -13,7 +13,10 @@ export default {
 <div id="page" class="maxW1200">
   <Header />
   <!-- component matched by the route will render here -->
+  <div id="v-views">
   <router-view />
+  </div>
+
 <Footer />
 </div>
 </template>
@@ -27,5 +30,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+#v-views {
+  min-height: 80vh;
 }
 </style>

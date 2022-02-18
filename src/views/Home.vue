@@ -1,32 +1,36 @@
 <template>
-  <div id="c-home">
-    <h1>Què vols fer?</h1>
+  <div id="v-home">
+    <h1>Quins serveis necessites?</h1>
 
     <div id="c-formulari" class="flex one center">
       <form class="flex one center">
-        <div class="f-roup">
-          <input type="text" v-model="nom" placeholder="Nom client" />
-        </div>
+
 
         <div id="choose-serveis" class="f-roup">
           <input
-            id="ch-pressu"
+            id="check-pressu"
             type="checkbox"
-            v-model="picked"
+            v-model="serveisPicked"
             value="500"
             @change="check($event)"
           />
-          <label for="ch-pressu" class="checkable">Pàgina web (500 €)</label>
+          <label for="check-pressu" class="checkable">Pàgina web (500 €)</label>
           <div v-show="selected">
-            <Panell :webfeatures="webfeatures" @webfeatures="webfeatures=$event" />
+            <Panell :serveisweb="serveisweb" @serveisweb="serveisweb=$event" />
           </div>
-          <input id="ch-seo" type="checkbox" v-model="picked" value="300" />
-          <label for="ch-seo" class="checkable"> Consultoria SEO (300 €)</label>
-          <input id="ch-ads" type="checkbox" v-model="picked" value="400" />
-          <label for="ch-ads" class="checkable">Campanya de Publicitat (400 €)</label>
+          <input id="check-seo" type="checkbox" v-model="serveisPicked" value="300" />
+          <label for="check-seo" class="checkable"> Consultoria SEO (300 €)</label>
+          <input id="check-ads" type="checkbox" v-model="serveisPicked" value="400" />
+          <label for="check-ads" class="checkable">Campanya de Publicitat (400 €)</label>
         </div>
+
+   <div class="f-roup">
+          <input type="text" v-model="nom" placeholder="Nom client" />
+        </div>
+
       </form>
       <div id="form-outputs">
+
         <div v-if="nom != ''">
           <p>Pressupost per a: {{ nom }}</p>
         </div>
@@ -47,26 +51,26 @@ export default {
     return {
       nom: "",
       serveis: [
-        { id: "ch-pressu", nom: "Pàgina web", preu: 500 },
-        { id: "ch-seo", nom: "Consultoria SEO", preu: 300 },
-        { id: "ch-ads", nom: "Campanya de Publicitat", preu: 400 },
+        { id:10, nom: "Pàgina web", preu: 500 },
+        { id:20, nom: "Consultoria SEO", preu: 300 },
+        { id:30, nom: "Campanya de Publicitat", preu: 400 },
       ],
-      webfeatures: [
-        { nom: "idioma", num: 1 },
-        { nom: "pages", num: 1 },
+      serveisweb: [
+        { id:11, nom: "idioma", num: 1 },
+        { id:12, nom: "pages", num: 1 },
     ],
-      picked: [],
+      serveisPicked: [],
       selected: false,
       preuTotal: 0,
     };
   },
   methods: {
     calcularPreuTotal() {
-      const totalPicked = this.picked.reduce(
-        (partialSum, num) => partialSum + parseInt(num),
-        0
+      const totalServeis = this.serveisPicked.reduce(
+        (partialSum, num) => partialSum + parseInt(num), 0
       );
-      return totalPicked;
+      const totalServeisWeb = (this.serveisweb[0].num * this.serveisweb[1].num * 30);
+      return totalServeis + totalServeisWeb
     },
     check(e) {
       this.selected = e.target.checked;
@@ -79,10 +83,14 @@ export default {
 };
 </script>
 
-<style>
-#c-formulari {
-  background: #ebebeb;
-}
+<style scoped>
+#c-formulari { padding: 2em 0; }
+form{
+      max-width: 500px;
+    background: #fff;
+    padding: 1em;
+    width: 100%;
+ }
 .f-roup {
   margin: 1em 0 0;
 }
@@ -96,7 +104,7 @@ input[type="checkbox"] {
   width: 1em;
 }
 #choose-serveis {
-    width: 25em;
+    width: 100%;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
