@@ -1,16 +1,16 @@
 <template>
 <div id="c-modal">
-<label for="modal_1" class="button">?</label>
+<label for="modal_1" class="button">{{ lab }}</label>
   <div class="modal">
   <input id="modal_1" type="checkbox" />
   <label for="modal_1" class="overlay"></label>
-  <div>
+  <div id="v-modal">
     <header>
-      <h3>Great offer</h3>
+      <h3>{{ lab }}</h3>
       <label for="modal_1" class="close">&times;</label>
     </header>
     <section class="content">
-      We have a special offer for you. I am sure you will love it! However this does look spammy...
+{{ msg }}
     </section>
 
   </div>
@@ -21,11 +21,19 @@
 <script>
 export default {
     name: 'Modal',
-    props: ['class', 'label', 'msg'],
+    props: ['lab', 'msg'],
+    data() {
+        return {
 
+        }
+    }
 }
 </script>
 
 <style>
-
+#v-modal {
+    padding: 2em;
+    /* text-align: center; */
+    font-size: 1.1em;
+}
 </style>

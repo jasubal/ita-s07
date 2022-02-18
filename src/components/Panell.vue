@@ -6,14 +6,14 @@
 <button @click="subtract(serveisweb[0])">-</button>
 <input type="number" v-model.number="serveisweb[0].num">
 <button @click="add(serveisweb[0])">+</button>
-<Modal></Modal>
+<Modal :lab="modals[0].lab" :msg="modals[0].msg" ></Modal>
 </li>
 
 <li>Pàgines:
 <button @click="subtract(serveisweb[1])">-</button>
 <input type="number" v-model.number="serveisweb[1].num">
 <button @click="add(serveisweb[1])">+</button>
-<Modal :class="class" :label="label" :msg="msg" ></Modal>
+<Modal :lab="modals[1].lab" :msg="modals[1].msg" ></Modal>
 </li>
 </ul>
 idiomes: {{ serveisweb[0].num }} - pagines: {{ serveisweb[1].num }}
@@ -23,13 +23,25 @@ idiomes: {{ serveisweb[0].num }} - pagines: {{ serveisweb[1].num }}
 <script>
 import Modal from "./Modal.vue";
 export default {
+    components: { Modal },
     props: ["serveisweb"],
     name: "Panell",
     beforeMount() {
         // this.serveisweb = this.serveisweb // save props data to itself's data and deal with it
     },
     data() {
-        return {};
+        return {
+
+modals: [
+    {
+        lab: "?", msg: "Aquest component ha de mostrar el número d'idiomes que tindrà la web"
+    },
+        {
+        lab: "?", msg: "Aquest component ha de mostrar el número d'idiomes que tindrà la web"
+    }
+],
+
+        };
     },
     methods: {
         add(item) {
@@ -78,7 +90,7 @@ ul{
 .ico-help {
     font-size: 1.2em;
     margin: 2px 10px 0;
-    padding: 2px 10px 0px;
+    padding: 2px 10px 0;
     border-radius: 20px;
     color: rgb(152, 152, 152);
     background: #25c781;
