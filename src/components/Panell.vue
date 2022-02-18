@@ -88,7 +88,7 @@ ul{
     margin: 2px 10px 0;
     padding: 0 10px 0;
     border-radius: 50%;
-    color: white;
+    color: #fff;
     background: #25c781;
     cursor: pointer;
 }
