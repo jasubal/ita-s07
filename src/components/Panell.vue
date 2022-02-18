@@ -6,14 +6,14 @@
 <button @click="subtract(serveisweb[0])">-</button>
 <input type="number" v-model.number="serveisweb[0].num">
 <button @click="add(serveisweb[0])">+</button>
-<Modal :lab="modals[0].lab" :msg="modals[0].msg" ></Modal>
+<Modal :lab1="modals[0].lab1" :lab2="modals[0].lab2" :msg="modals[0].msg" ></Modal>
 </li>
 
 <li>Pàgines:
 <button @click="subtract(serveisweb[1])">-</button>
 <input type="number" v-model.number="serveisweb[1].num">
 <button @click="add(serveisweb[1])">+</button>
-<Modal :lab="modals[1].lab" :msg="modals[1].msg" ></Modal>
+<Modal :lab1="modals[1].lab1" :lab2="modals[1].lab2" :msg="modals[1].msg" ></Modal>
 </li>
 </ul>
 idiomes: {{ serveisweb[0].num }} - pagines: {{ serveisweb[1].num }}
@@ -33,12 +33,8 @@ export default {
         return {
 
 modals: [
-    {
-        lab: "?", msg: "Aquest component ha de mostrar el número d'idiomes que tindrà la web"
-    },
-        {
-        lab: "?", msg: "Aquest component ha de mostrar el número d'idiomes que tindrà la web"
-    }
+{lab1: "?",lab2:"Info",msg:"Aquest component ha de mostrar el número d'idiomes que tindrà la web"},
+{lab1: "?",lab2:"Info",msg:"Aquest component ha de mostrar el número d'idiomes que tindrà la web"}
 ],
 
         };
@@ -87,14 +83,13 @@ ul{
     flex-direction: column;
     text-align: left;
 }
-.ico-help {
+#c-modal .button {
     font-size: 1.2em;
     margin: 2px 10px 0;
-    padding: 2px 10px 0;
-    border-radius: 20px;
-    color: rgb(152, 152, 152);
+    padding: 0 10px 0;
+    border-radius: 50%;
+    color: white;
     background: #25c781;
-    border: 1px solid #6a6a6a;
     cursor: pointer;
 }
 
