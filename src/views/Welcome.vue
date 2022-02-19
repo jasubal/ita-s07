@@ -10,7 +10,7 @@
 
 <script>
 export default ({
-      name: "Wellcome"
+      name: "Welcome"
 })
 </script>
 
