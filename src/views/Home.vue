@@ -78,18 +78,33 @@ export default {
         { nom: "Campanya de Publicitat", preu: 400, selected: false },
       ],
       serveisweb: [
-        { nom: "idioma", num: 1 },
-        { nom: "pages", num: 1 },
+        { nom: "idioma", num: 1 }, { nom: "pages", num: 1 },
       ],
       serveisPicked: [],
       showWebservices: false,
+      currentPressu: [],
       preuTotal: 0,
     };
   },
+  watch : {
+    preuTotal:function() {
+      console.log("watch this preuTotal: "+ this.preuTotal);
+      console.log(this.currentPressu);
+      }
+
+  },
   methods: {
-    updatePreuTotal() {},
+    updateCurrentPresu() {
+      this.currentPressu = [];
+      this.serveis.forEach((servei) => {
+        if (servei.selected) {
+          this.currentPressu.push(servei);
+        }
+      });
+    },
+
     calcularPreuTotal() {
-      let preuTotal = 0;
+      this.preuTotal = 0;
       const totalServeis = this.serveisPicked.reduce(
         (partialSum, num) => partialSum + parseInt(num),
         0
@@ -100,10 +115,11 @@ export default {
         this.serveis[0].pags = this.serveisweb[1].num;
       //console.log(this.serveis);
       //console.log(this.serveisweb);
-      this.showWebservices == true
-        ? (preuTotal = totalServeis + totalServeisWeb)
-        : (preuTotal = totalServeis);
-      return preuTotal;
+      this.showWebservices == true ? (this.preuTotal = totalServeis + totalServeisWeb) : (this.preuTotal = totalServeis);
+
+      this.updateCurrentPresu();
+
+      return this.preuTotal;
     },
     check(e, idx) {
       //let selected = e.target.checked;
@@ -118,6 +134,7 @@ export default {
       //console.log(this.showWebservices);
       //console.log(selected, e.target.value );
       this.calcularPreuTotal();
+
     },
   },
 

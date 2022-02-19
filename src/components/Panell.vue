@@ -43,12 +43,12 @@ modals: [
         add(item) {
             item.num++;
             this.$emit("serveisweb", this.serveisweb);
-            console.log(this.serveisweb);
+            //console.log(this.serveisweb);
         },
         subtract(item) {
             item.num < 1 ? item.num = 1 : item.num--;
             this.$emit("serveisweb", this.serveisweb);
-            console.log(this.serveisweb);
+            //console.log(this.serveisweb);
         },
     },
     components: { Modal }
