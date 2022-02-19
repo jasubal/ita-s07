@@ -23,12 +23,9 @@
 <script>
 import Modal from "./Modal.vue";
 export default {
+    name: "Panell",
     components: { Modal },
     props: ["serveisweb"],
-    name: "Panell",
-    beforeMount() {
-        // this.serveisweb = this.serveisweb // save props data to itself's data and deal with it
-    },
     data() {
         return {
 
@@ -51,7 +48,6 @@ modals: [
             //console.log(this.serveisweb);
         },
     },
-    components: { Modal }
 }
 </script>
 
