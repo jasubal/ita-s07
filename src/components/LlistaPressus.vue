@@ -12,7 +12,7 @@ export default {
 
 
     name: "LlistaPressus",
-    props: ["elspressus"],
+    props: ["pressusList"],
     data() {
         return {
 
