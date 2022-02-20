@@ -1,11 +1,12 @@
 <script>
 import Panell from "../components/Panell.vue";
+import Alert from "../components/Alert.vue";
 import MostraPressu from "../components/MostraPressu.vue";
 import LlistaPressus from "../components/LlistaPressus.vue";
 
 export default {
   name: "Home",
-  components: { Panell, MostraPressu, LlistaPressus },
+  components: { Panell, Alert, MostraPressu, LlistaPressus },
   data() {
     return {
       nomClient: "",
@@ -22,7 +23,10 @@ export default {
       showServeisweb: false,
       currentPressu: [],
       preuTotal: 0,
-      elspressus: []
+      elspressus: [],
+      alert1: false,
+      labAlert1: "Alerta",
+      msgAlert1: "Emplena nom del client, i un servei com a mínim",
     };
   },
   watch : {
@@ -39,10 +43,8 @@ export default {
       this.serveis.forEach((servei) => {
         (servei.selected) ? this.currentPressu[1].productes.push(servei) : 0; //si el servei està seleccionat, l'afegim al array de productes
       });
-
       // console.log(this.currentPressu);
     },
-
     calcularPreuTotal() {
       this.preuTotal = 0;
       const totalServeis = this.serveisPicked.reduce( (partialSum, num) => partialSum + parseInt(num),0 );
@@ -62,8 +64,17 @@ export default {
       //console.log(this.showServeisweb);
       //console.log(selected, e.target.value );
       this.calcularPreuTotal();
-
     },
+    addPressu(e) {
+      e.preventDefault();
+if ( this.nomClient === "" || this.preuTotal === 0 ) {
+        this.alert1 = true;
+} else {
+      this.elspressus.push({pressupost:[]});
+      //this.elspressus[this.elspressus.length-1].pressupost.push( {this.currentPressu}  );
+      console.log("added Pressu");
+}
+    }
   },
 
 };
@@ -76,7 +87,7 @@ export default {
 
 <MostraPressu :currentPressu="currentPressu" :preuTotal="preuTotal" />
 
-      <form class="flex one center">
+      <form class="flex one center" >
         <h2>Calculadora de pressupostos</h2>
         <div id="choose-serveis" class="f-roup">
           <input
@@ -123,13 +134,13 @@ export default {
         </div>
 
         <div id="form-outputs">
-          <div v-if="nomPressu != ''">
-            {{ nomPressu }}
-          </div>
-          <div v-if="nomClient != ''">Pressupost per a: {{ nomClient }}</div>
 
           <div class="f-group">Preu total: {{ calcularPreuTotal() }} €</div>
-          <div class="f-group"><button>Guarda el Pressupost</button></div>
+          <div class="f-group">
+            <div v-if="alert1">
+            <Alert :lab1="labAlert1" :msg="msgAlert1" @alert="alert1 = $event"  ></Alert>
+            </div>
+            <button type="submit" @click="addPressu($event)">Guarda el Pressupost</button></div>
         </div>
       </form>
 
