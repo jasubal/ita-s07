@@ -1,13 +1,12 @@
 <template>
 <div id="c-alert">
 <div id="alert" @click="closeAlert()">
-<div id="panell">
+<div id="alertpanel">
     <div id="x">
     <span class="x">X</span>
     </div>
 <h2>{{lab1}}</h2>
-<hr>
-{{ msg }}
+<p>{{msg}}</p>
 </div>
 
 </div>
@@ -34,7 +33,7 @@ export default {
 
 <style>
 #c-alert {
-    position: absolute;
+    position: fixed;
     width: 100vw;
     height: 100vh;
     top: 0;
@@ -57,8 +56,34 @@ export default {
     box-shadow: 1px 1px 13px 1px #e9e8e8;
     max-height: 20em;
 }
-.close {
-    position: absolute;
-    font-size: 1.5em;
+
+#alertpanel { font-size: 1.2em; position: relative; }
+#alertpanel h2 {
+    color: #e70000;
+    font-size: 1.4em;
+    letter-spacing: 1px;
 }
+span.x {
+    position: absolute;
+    right: 0;
+    font-size: 1em;
+    border-radius: 100%;
+    background: #eee;
+    width: 32px;
+    height: 34px;
+    padding: 2px 0 0;
+}
+
+
+@media (min-width: 75em) {
+#c-alert {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    }
+}
+
+
 </style>

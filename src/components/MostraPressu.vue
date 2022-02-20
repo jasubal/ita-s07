@@ -39,7 +39,7 @@ output += producte.nom + '<br>Idioma/es: ' + producte.langs + ' - Pàgina/es: '+
         }
     });
     output += '<br>';
-    output += 'Preu Total: ' + resum.preu + '</br>';
+    output += '<strong>Preu Total: ' + resum.preu + '</strong></br>';
     /*
     this.currentPressu.forEach((item,index) => {
        currentPressu[0]
@@ -59,22 +59,7 @@ output += producte.nom + '<br>Idioma/es: ' + producte.langs + ' - Pàgina/es: '+
 </script>
 
 <style scoped>
-#c-mostraPressu {
-    padding: 0;
-}
-#elPressu {
-    background: #FFF;
-    height: 100%;
-    margin: 0 22px 0 0;
-}
-
-#dadesPressu {
-    text-align: left;
-    padding: 0 2em;
-}
-#dadesPressu .tit{
-    font-size: 1.2em;
-    margin: 0;
-    padding: 0.6em 0 0;
-}
+#c-mostraPressu { padding: 0; }
+#elPressu { height: 100%; margin: 0; }
+#dadesPressu { text-align: left; padding: 0 2em; }
 </style>

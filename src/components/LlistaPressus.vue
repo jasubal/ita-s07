@@ -1,8 +1,9 @@
 <template>
 <div id="c-llistaPressus" class="c-modul">
-<div id="elLlistat">
-<h2>Pressupost list</h2>
 
+<div v-if="pressusList.length > 0 " id="llistat">
+<h2>Pressupost list</h2>
+<!-- <pre>{{llistaPressus}}</pre> -->
 </div>
 </div>
 </template>
@@ -25,8 +26,7 @@ export default {
 </script>
 
 <style>
-#elLlistat {
-    background: #FFF;
-    height: 100%;
+#llistat {
+    display: flex;
 }
 </style>

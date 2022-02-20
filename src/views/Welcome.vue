@@ -4,7 +4,7 @@
 <h2>Quins serveis necessites?</h2>
 <p>Amb aquesta calculadora podreu obtenir un pressupost de tallat dels serveis que demaneu</p>
     </div>
-    <button> <router-link to="/home" class="button">Obre l'aplicació</router-link></button>
+   <router-link to="/home" class="button">Obre l'aplicació</router-link>
 
 </template>
 

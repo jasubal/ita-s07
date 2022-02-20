@@ -2,65 +2,45 @@
 <template>
   <div id="v-home">
 
-    <div id="c-formulari" class="c-modul flex one three-800 center">
+    <div id="c-formulari" class="flex one three-800 center">
 
 <MostraPressu :currentPressu="currentPressu" :preuTotal="preuTotal" />
 
-      <form class="flex one center" >
+      <form class="flex one center c-modul" >
         <h2>Calculadora de pressupostos</h2>
+        <div class="f-roup">
+          <input type="text" v-model.lazy="nomClient" placeholder="Nom client" />
+              </div>
         <div id="choose-serveis" class="f-roup">
-          <input
-            id="check-pressu"
-            type="checkbox"
-            v-model="serveisPicked"
-            value="500"
-            @change="check($event, 0)"
-          />
+          <input id="check-pressu" type="checkbox" v-model="serveisPicked" value="500" @change="check($event, 0)" />
           <label for="check-pressu" class="checkable">Pàgina web (500 €)</label>
           <div v-if="showServeisweb">
-            <Panell
-              :serveisweb="serveisweb"
-              @serveisweb="serveisweb = $event"
-            />
+            <Panell :serveisweb="serveisweb" @serveisweb="serveisweb = $event" />
           </div>
 
-          <input
-            id="check-seo"
-            type="checkbox"
-            v-model="serveisPicked"
-            value="300"
-            @change="check($event, 1)"
-          />
+          <input id="check-seo" type="checkbox" v-model="serveisPicked" value="300" @change="check($event, 1)" />
           <label for="check-seo" class="checkable">
-            Consultoria SEO (300 €)</label
-          >
+            Consultoria SEO (300 €)</label>
 
-          <input
-            id="check-ads"
-            type="checkbox"
-            v-model="serveisPicked"
-            value="400"
-            @change="check($event, 2)"
-          />
+          <input id="check-ads" type="checkbox" v-model="serveisPicked" value="400" @change="check($event, 2)" />
           <label for="check-ads" class="checkable"
-            >Campanya de Publicitat (400 €)</label
-          >
+            >Campanya de Publicitat (400 €)</label>
         </div>
 
-        <div class="f-roup">
-          <input type="text" v-model="nomClient" placeholder="Nom client" />
-          <input type="text" v-model="nomPressu" placeholder="Nom Pressupost" />
-        </div>
+        <h3>Preu total: {{ calcularPreuTotal() }} €</h3>
 
-        <div id="form-outputs">
 
-          <div class="f-group">Preu total: {{ calcularPreuTotal() }} €</div>
-          <div class="f-group">
+
+          <div class="f-roup">
+            <input type="text" v-model.lazy="nomPressu" placeholder="Nom Pressupost" />
+          </div>
+               <div class="f-roup">
             <div v-if="alert1">
             <Alert :lab1="labAlert1" :msg="msgAlert1" @alert="alert1 = $event"  ></Alert>
             </div>
-            <button @click="addPressu()" >Guarda el Pressupost</button></div>
-        </div>
+            <button @click="addPressu()" >Guarda el Pressupost</button>
+            </div>
+
       </form>
 
 <LlistaPressus :pressusList="pressusList" />
@@ -154,14 +134,26 @@ export default {
 
 
 <style scoped>
-#v-home { padding: 10px 10px; }
+#v-home { padding: 0 }
 #c-formulari { padding: 0; }
 h3 { margin: 0; padding: 0; }
-form { max-width: 430px; background: #fdfdfd; padding: 0; width: 100%; }
 .f-group { margin: 1em 0 0; }
 input,
 textarea { max-width: 18em; margin: 10px 0 0; }
 input[type="checkbox"] { width: 1em; }
 #choose-serveis { width: 100%; display: flex; flex-direction: column; flex-wrap: wrap; align-content: center; align-items: flex-start; }
 label { margin: 10px 0; cursor: pointer; }
+
+
+@media (min-width: 56.25em) {
+form {
+    background: #fdfdfd;
+    width: 33%;
+  }
+}
+
+@media (min-width: 75em) {
+
+ }
+
 </style>
