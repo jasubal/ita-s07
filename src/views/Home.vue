@@ -22,6 +22,7 @@ export default {
       showServeisweb: false,
       currentPressu: [],
       preuTotal: 0,
+      elspressus: []
     };
   },
   watch : {
@@ -33,11 +34,13 @@ export default {
   methods: {
     updateCurrentPresu() {
       this.currentPressu = [];
+      this.currentPressu.push( {resum: { preu:this.preuTotal, nomClient:this.nomClient, nomPressu:this.nomPressu } } );
+      this.currentPressu.push( {productes: [] } );
       this.serveis.forEach((servei) => {
-        if (servei.selected) {
-          this.currentPressu.push(servei);
-        }
+        (servei.selected) ? this.currentPressu[1].productes.push(servei) : 0; //si el servei està seleccionat, l'afegim al array de productes
       });
+
+      // console.log(this.currentPressu);
     },
 
     calcularPreuTotal() {
@@ -68,14 +71,13 @@ export default {
 
 <template>
   <div id="v-home">
-    <h1>Quins serveis necessites?</h1>
 
-    <div id="c-formulari" class="flex one three-800 center">
+    <div id="c-formulari" class="c-modul flex one three-800 center">
 
 <MostraPressu :currentPressu="currentPressu" :preuTotal="preuTotal" />
 
-
       <form class="flex one center">
+        <h2>Calculadora de pressupostos</h2>
         <div id="choose-serveis" class="f-roup">
           <input
             id="check-pressu"
@@ -139,36 +141,14 @@ export default {
 
 
 <style scoped>
-#c-formulari {
-  padding: 0;
-}
-form {
-    max-width: 430px;
-    background: #fdfdfd;
-  padding: 1em;
-  width: 100%;
-}
-.f-group {
-  margin: 1em 0 0;
-}
+#v-home { padding: 10px 10px; }
+#c-formulari { padding: 0; }
+h3 { margin: 0; padding: 0; }
+form { max-width: 430px; background: #fdfdfd; padding: 0; width: 100%; }
+.f-group { margin: 1em 0 0; }
 input,
-textarea {
-  max-width: 18em;
-  margin: 10px 0 0;
-}
-input[type="checkbox"] {
-  width: 1em;
-}
-#choose-serveis {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-content: center;
-  align-items: flex-start;
-}
-label {
-  margin: 10px 0;
-  cursor: pointer;
-}
+textarea { max-width: 18em; margin: 10px 0 0; }
+input[type="checkbox"] { width: 1em; }
+#choose-serveis { width: 100%; display: flex; flex-direction: column; flex-wrap: wrap; align-content: center; align-items: flex-start; }
+label { margin: 10px 0; cursor: pointer; }
 </style>

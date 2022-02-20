@@ -1,5 +1,5 @@
 <template>
-<div id="c-llistaPressus">
+<div id="c-llistaPressus" class="c-modul">
 <div id="elLlistat">
 <h2>Pressupost list</h2>
 
