@@ -14,7 +14,7 @@
         </li>
   </ul>
 
-
+<pre> {{ pressusList }}</pre>
 </div>
 </div>
 </template>

@@ -72,6 +72,7 @@ export default {
       serveisPicked: [],
       showServeisweb: false,
       currentPressu: [],
+      pressu2add: [],
       preuTotal: 0,
       pressusList: [],
       alert1: false,
@@ -103,9 +104,7 @@ export default {
         } } );
 
       this.currentPressu.push( {productes:[] } );
-      this.serveis.forEach((servei) => {
-        (servei.selected) ? this.currentPressu[1].productes.push(servei) : 0; //si el servei està seleccionat, l'afegim al subarray de productes
-      });
+      this.serveis.map((servei) => {servei.selected ? this.currentPressu[1].productes.push(servei) : 0});
       // console.log(this.currentPressu);
     },
     calcularPreuTotal() {
@@ -132,32 +131,13 @@ export default {
       if ( this.nomClient === "" || this.preuTotal === 0 ) {
           this.alert1 = true;
       }else{
-
-const pressu2add = this.currentPressu;
-
+      this.pressu2add = this.currentPressu.map( pressu => pressu);
+      this.pressusList.push( { pressupost:[] } );
         // this.nomPressu.length > 0 ? this.nomPressu=this.nomPressu : this.nomPressu = "pressu"+this.getUniqueId() ;
-        this.pressusList.push(
-          {pressupost:{ pressu2add
-
-            /*
-            id:         this.currentPressu.resum.id,
-            dataPressu: this.currentPressu.dataPressu,
-            preu:       this.currentPressu.preuTotal,
-            nomClient:  this.currentPressu.nomClient,
-            nomPressu:  this.currentPressu.nomPressu,
-            productes:  this.currentPressu.productes
-            */
-            },
-        });
+        // this.pressusList.push( {pressupost:{ pressu2add }, });
         //this.currentPressu});
-        //this.pressusList[this.pressusList.length-1].pressupost.push(this.currentPressu);
-
-
-/*
-         this.nomPressu.length < 1 ?
-         this.pressusList[this.pressusList.length-1].pressupost.resum.nomPressu = "nom pressupost "+this.getUniqueId()
-         : 0  ;
-*/
+      //this.pressusList[this.pressusList.length-1].pressupost.push(this.currentPressu);
+      this.pressusList[this.pressusList.length-1].pressupost.push(this.pressu2add);
 
         }
       },
