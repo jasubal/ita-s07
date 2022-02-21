@@ -4,7 +4,12 @@
 <div v-if="preuTotal > 1 " id="elPressu">
 <h2>Pressupost Actual</h2>
 <div id="dadesPressu" v-html="renderPressu()"></div>
+
+<pre>{{currentPressu}}</pre>
+
 </div>
+
+
 <!-- <pre>{{currentPressu}}</pre> -->
 </div>
 
@@ -25,11 +30,11 @@ export default {
     let output = '';
     let resum = this.currentPressu[0].resum;
     let productes = this.currentPressu[1].productes;
-    let dataActual = new Date().toLocaleDateString()
+    //let dataActual = new Date().toLocaleDateString()
     output += '<h3 class="tit">Resum</h3>';
-    output += 'Data pressupost: '+ dataActual + '</br>';
- (resum.nomClient !== '') ? (output += 'Client: ' + resum.nomClient + '</br>' ) : 0;
- (resum.nomPressu !== '') ? (output += 'Descripció: ' + resum.nomPressu + '</br>' ) : 0;
+    output += 'Data pressupost: '+ resum.dataPressu + '</br>';
+    resum.nomClient !== '' ? (output += 'Client: ' + resum.nomClient + '</br>' ) : 0;
+    resum.nomPressu !== '' ? (output += 'Descripció: ' + resum.nomPressu + '</br>' ) : 0;
     output += '<h3 class="tit">Productes</h3>';
     productes.forEach((producte) => {
         if (producte.langs > 0 && producte.pags > 0) {

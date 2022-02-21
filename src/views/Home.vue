@@ -30,7 +30,6 @@
         <h3>Preu total: {{ calcularPreuTotal() }} €</h3>
 
 
-
           <div class="f-roup">
             <input type="text" v-model.lazy="nomPressu" placeholder="Nom Pressupost" />
           </div>
@@ -86,13 +85,26 @@ export default {
       }
 
   },
+    mounted() {
+      // this.nomPressu.length < 1 ? this.nomPressu = "nom pressupost "+this.getUniqueId() : 0
+
+  },
   methods: {
     updateCurrentPresu() {
       this.currentPressu = [];
-      this.currentPressu.push( {resum: { preu:this.preuTotal, nomClient:this.nomClient, nomPressu:this.nomPressu } } );
-      this.currentPressu.push( {productes: [] } );
+      let dataAvui = new Date().toLocaleDateString()
+
+      this.currentPressu.push( {resum: {
+        id: this.getUniqueId(),
+        dataPressu: dataAvui,
+        preu:this.preuTotal,
+        nomClient:this.nomClient,
+        nomPressu:this.nomPressu
+        } } );
+
+      this.currentPressu.push( {productes:[] } );
       this.serveis.forEach((servei) => {
-        (servei.selected) ? this.currentPressu[1].productes.push(servei) : 0; //si el servei està seleccionat, l'afegim al array de productes
+        (servei.selected) ? this.currentPressu[1].productes.push(servei) : 0; //si el servei està seleccionat, l'afegim al subarray de productes
       });
       // console.log(this.currentPressu);
     },
@@ -117,15 +129,44 @@ export default {
       this.calcularPreuTotal();
     },
     addPressu(){
-      // e.preventDefault();
-    if ( this.nomClient === "" || this.preuTotal === 0 ) {
-        this.alert1 = true;
-    } else {
-      this.pressusList.push({pressupost:[]});
-      this.pressusList[this.pressusList.length-1].pressupost.push(this.currentPressu);
-    }
+      if ( this.nomClient === "" || this.preuTotal === 0 ) {
+          this.alert1 = true;
+      }else{
 
-    }
+const pressu2add = this.currentPressu;
+
+        // this.nomPressu.length > 0 ? this.nomPressu=this.nomPressu : this.nomPressu = "pressu"+this.getUniqueId() ;
+        this.pressusList.push(
+          {pressupost:{ pressu2add
+
+            /*
+            id:         this.currentPressu.resum.id,
+            dataPressu: this.currentPressu.dataPressu,
+            preu:       this.currentPressu.preuTotal,
+            nomClient:  this.currentPressu.nomClient,
+            nomPressu:  this.currentPressu.nomPressu,
+            productes:  this.currentPressu.productes
+            */
+            },
+        });
+        //this.currentPressu});
+        //this.pressusList[this.pressusList.length-1].pressupost.push(this.currentPressu);
+
+
+/*
+         this.nomPressu.length < 1 ?
+         this.pressusList[this.pressusList.length-1].pressupost.resum.nomPressu = "nom pressupost "+this.getUniqueId()
+         : 0  ;
+*/
+
+        }
+      },
+    getUniqueId() {
+      //return new Date().getTime();
+      let uniqueId = window.crypto.getRandomValues(new Uint32Array(1))[0];
+      return uniqueId.toString(16);
+    },
+
   },
 
 
