@@ -3,7 +3,7 @@
 
 <div v-if="pressusList.length > 0 " id="llistat">
 <h2>Pressupost list</h2>
-
+<p>Pressuposts guardats: {{pressusList.length}}</p>
 <ul>
     <li class="pressItem" v-for="(item,index) in pressusList" :key="item.id">
     Pressupost index: {{ index }} <br>
@@ -50,14 +50,7 @@ renderPressu(idx) {
     flex-direction: column;
 }
 
-#llistat h2 {
-    position: sticky;
-    right: 0;
-    z-index: 9999999999;
-    top: 0;
-    background: #FFF;
-}
-.pressItem {
+li.pressItem {
     background: rgb(245, 245, 245);
     border: 1px solid #CCC;
     min-height: 6em;
