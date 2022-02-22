@@ -16,9 +16,9 @@ export default {
       nomClient: "",
       nomPressu: "",
       serveis: [
-        { nom: "Pàgina web", preu: 500, selected: false, langs: 0, pags: 0,  },
-        { nom: "Consultoria SEO", preu: 300, selected: false },
-        { nom: "Campanya de Publicitat", preu: 400, selected: false },
+        { servei: "Pàgina web", preu: 500, selected: false, langs: 0, pags: 0,  },
+        { servei: "Consultoria SEO", preu: 300, selected: false },
+        { servei: "Campanya de Publicitat", preu: 400, selected: false },
       ],
       serveisweb: [
         { nom: "idioma", num: 1 }, { nom: "pages", num: 1 },
@@ -50,23 +50,25 @@ export default {
     updateCurrentPresu() {
       this.currentPressu = [];
       //let productes = markRaw([]);
-      let productes = [];
+      //let productes = [];
       let dataAvui = new Date().toLocaleDateString()
 
-      this.currentPressu.push( {resum: {
+      this.currentPressu.push( {
         id: this.getUniqueId(),
-        dataPressu: dataAvui,
-        preu:this.preuTotal,
+        nomPressu:this.nomPressu,
         nomClient:this.nomClient,
-        nomPressu:this.nomPressu
-        } } );
+        dataPressu: dataAvui,
+        preuTotal:this.preuTotal,
 
 
-  this.currentPressu.push( { productes } );
+        } );
+
+
+  //this.currentPressu.push( productes );
 
       //this.currentPressu[1].productes.push(servei);
 
-   this.serveis.map((servei) => {servei.selected ? this.currentPressu[1].productes.push(servei) : 0});
+   this.serveis.map((servei) => {servei.selected ? this.currentPressu.push(servei) : 0});
 
       // console.log(this.currentPressu);
     },
@@ -98,16 +100,20 @@ export default {
       }else{
 
     // la copia con JSON
-    const myJSONCopy = JSON.parse(JSON.stringify(this.currentPressu))
-    const pressupost = [];
+    // https://www.kuworking.com/javascript-como-copiar-arrays
+    // const myJSONCopy = JSON.parse(JSON.stringify(this.currentPressu))
+    const pressupost = JSON.parse(JSON.stringify(this.currentPressu))
+    //const pressupost = [];
 
       //console.log(pressuFreezed );
       this.pressusList.push( { pressupost } );
-        // this.nomPressu.length > 0 ? this.nomPressu=this.nomPressu : this.nomPressu = "pressu"+this.getUniqueId() ;
-        // this.pressusList.push( {pressupost:{ pressu2add }, });
-        //this.currentPressu});
+      //this.pressusList.push( { pressupost } );
+      // this.nomPressu.length > 0 ? this.nomPressu=this.nomPressu : this.nomPressu = "pressu"+this.getUniqueId() ;
+      // this.pressusList.push( {pressupost:{ pressu2add }, });
+      //this.currentPressu});
       //this.pressusList[this.pressusList.length-1].pressupost.push(this.currentPressu);
-      this.pressusList[this.pressusList.length-1].pressupost.push(myJSONCopy);
+      //this.pressusList[this.pressusList.length-1].push(myJSONCopy);
+      //this.pressusList[this.pressusList.length-1].push({myJSONCopy});
       //console.log(this.pressusList);
         }
       },
@@ -124,7 +130,7 @@ export default {
 </script>
 
 <template>
-  <div id="v-home">
+  <div id="v-home" class="maxW1300">
 
     <div id="c-formulari" class="flex one three-800 center">
 
@@ -137,7 +143,7 @@ export default {
               </div>
         <div id="choose-serveis" class="f-roup">
           <input id="check-pressu" type="checkbox" v-model="serveisPicked" value="500" @change="check($event, 0)" />
-          <label for="check-pressu" class="checkable">Pàgina web (500 €)</label>
+          <label for="check-pressu" class="checkable">Pàgina web (500€)</label>
           <div v-if="showServeisweb">
             <Panell :serveisweb="serveisweb" @serveisweb="serveisweb = $event" />
           </div>

@@ -6,11 +6,10 @@
 <div id="dadesPressu" v-html="renderPressu()"></div>
 
 <pre>{{currentPressu}}</pre>
-
 </div>
 
 
-<!-- <pre>{{currentPressu}}</pre> -->
+
 </div>
 
 </template>
@@ -22,38 +21,58 @@ export default {
     props: ["currentPressu", "preuTotal"],
     data() {
         return {
-
         }
     },
     methods: {
     renderPressu() {
     let output = '';
-    let resum = this.currentPressu[0].resum;
-    let productes = this.currentPressu[1].productes;
+    let resum = this.currentPressu[0];
+    //let productes = this.currentPressu[1];
     //let dataActual = new Date().toLocaleDateString()
+
     output += '<h3 class="tit">Resum</h3>';
+    resum.nomPressu !== '' ? output += resum.nomPressu + '</br>' : 0;
+
     output += 'Data pressupost: '+ resum.dataPressu + '</br>';
     resum.nomClient !== '' ? (output += 'Client: ' + resum.nomClient + '</br>' ) : 0;
-    resum.nomPressu !== '' ? (output += 'Descripció: ' + resum.nomPressu + '</br>' ) : 0;
+
     output += '<h3 class="tit">Productes</h3>';
-    productes.forEach((producte) => {
-        if (producte.langs > 0 && producte.pags > 0) {
-output += producte.nom + '<br>Idioma/es: ' + producte.langs + ' - Pàgina/es: '+  producte.pags + '<br>';
+
+this.currentPressu.forEach((item,index) => {
+    if (index > 0) {
+        if (item.langs > 0) {
+        let totalServeisWeb = item.langs * item.pags * 30;
+        output += item.servei + ': ' + item.preu + '€<br>';
+        output += item.langs + ' idioma/es + '+ item.pags + ' pàgina/es : '+ totalServeisWeb + '€<br>';
         } else {
-    output += producte.nom + ':'+ producte.preu + '</br>';
+        output += item.servei + ': ' + item.preu + '€<br>';
+        }
+    }
+});
+
+    output += '<br>';
+    output += '<strong>Preu Total: ' + resum.preuTotal + '€</strong></br>';
+
+/*
+
+});
+
+    productes.forEach((producte) => {
+    if (producte.langs > 0 && producte.pags > 0) {
+        output += producte.nom + ': '+ producte.preu + '€</br>';
+        output += 'Idioma/es ' + producte.langs + ' - Pàgina/es '+  producte.pags ;
+    let totalServeisWeb = producte.langs * producte.pags * 30;
+    output += ': ' + totalServeisWeb + '€<br>';
+
+    } else {
+        output += producte.nom + ': '+ producte.preu + '€</br>';
         }
     });
     output += '<br>';
-    output += '<strong>Preu Total: ' + resum.preu + '</strong></br>';
-    /*
-    this.currentPressu.forEach((item,index) => {
-       currentPressu[0]
-       //';
-    });
-    */
-     //output += "Serveis Web: " + this.serveisweb[0].num + " idioma(s) i " + this.serveisweb[1].num + " pàgina(s)";
+    output += '<strong>Preu Total: ' + resum.preuTotal + '€</strong></br>';
+*/
 
-     return output
+    return output
     }
 
     }

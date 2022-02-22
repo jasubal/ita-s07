@@ -5,19 +5,32 @@
 <h2>Pressupost list</h2>
 <p>Pressuposts guardats: {{pressusList.length}}</p>
 <ul>
-    <li class="pressItem" v-for="(item,index) in pressusList" :key="item.id">
-    Pressupost index: {{ index }} <br>
-    {{ item }}
+    <li class="pressItem" v-for="(item,index ) in pressusList" :key='index' >
+Nom pressupost: {{ item.pressupost[0].nomPressu  }} <br>
+Nom client:     {{ item.pressupost[0].nomClient  }} <br>
+Data:           {{ item.pressupost[0].dataPressu }} <br>
+Preu total:     {{ item.pressupost[0].preuTotal  }} <br>
+Serveis:
+<div v-for="(s,index) in item.pressupost" :key='index'>
+    <span v-if="s.servei">{{s.servei}}</span>
+</div>
 
-
-
-        </li>
+<hr>
+     </li>
   </ul>
 
-<pre> {{ pressusList }}</pre>
+<!--
+ Nom Presupost: {{ pressupost[0].nomPressu }}
+        {{ pressupost.resum.nomPressu }}
+
+ -->
+
 </div>
+    <pre>{{ pressusList }}</pre>
 </div>
 </template>
+
+
 
 <script>
 export default {
