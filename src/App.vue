@@ -10,10 +10,10 @@ export default {
 </script>
 
 <template>
-<div id="page" class="maxW1200">
+<div id="page">
   <Header />
   <!-- component matched by the route will render here -->
-  <div id="v-views">
+  <div id="v-views" class="flex one center">
   <router-view />
   </div>
 

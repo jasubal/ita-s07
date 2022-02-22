@@ -1,17 +1,96 @@
-body { margin: 0; padding: 0; background: #f7f7f7; }
-#app,#page {
-    width: 100%; height: 100%;
-padding: 0; margin: 0;
-}
-.maxW1200 { max-width: 1200px; }
-.maxW960 { max-width: 960px; }
-ul { list-style: none; padding: 0; }
-pre { font-size: 12px; color: #666; }
-
-.comp { padding: 1em; }
+body { font-family: "Gill Sans Extrabold", Helvetica, sans-serif;
+-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+margin: 0; padding: 0; background: #f7f7f7; }
+#app,#page { width: 100%; height: 100%; padding: 0; margin: 0; }
 #c-header {
+    background: #FFF;
+    padding: 0 0 1em;
+}
+#c-header #nav {
     padding: 1em 0 0;
 }
-#app-logo { width: 3em; height: auto; }
-#c-home{ }
+#app-brand {
+    position: relative;
+    display: flex;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: 50px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+#app-brand h1 {
+    color: #000;
+    position: absolute;
+    font-size: 1.2em;
+    width: 100%;
+}
+#app-logo {
+    position: absolute;
+    width: 1.8em;
+    height: auto;
+    left: 10px;
+    top: 6px;
+    opacity: .8;
+}
+.maxW1300 { max-width: 1200px; }
+.maxW1200 { max-width: 1200px; }
+.maxW800  { max-width: 1200px; }
+.maxW960  { max-width: 960px; }
+ul { list-style: none; padding: 0; }
+pre { font-size: 12px; color: #666; padding: 1em;}
+input, textarea, .select select {
+    border: 1px solid #e0e0e0;
+}
+h1, h2, h3, h4, h5, h6 { line-height: 1.2; color: #0988f7; }
+h3 {font-size: 1.2em; margin: 0; padding: 0.6em 0 0; }
+a { color: #0988f7; }
+.comp { padding: 1em; }
+.c-modul {
+
+}
+.c-modul h2 {
+    padding: 1em;
+    width: 100%;
+}
+.f-group { margin: 4px 0; }
+
 #c-footer{ }
+
+@media (min-width: 56.25em) {
+    .c-modul {
+        padding:0;
+    }
+
+}
+
+@media (min-width: 75em) {
+    #app-brand {
+        position: absolute;
+        height: 50px;
+    }
+    #app-brand h1 {
+        color: #999;
+        position: absolute;
+        font-size: 1.4em;
+        width: max-content;
+        left: 2em;
+    }
+    .c-modul {
+        min-height: 700px;
+        max-height: 100vh;
+        overflow-y: scroll;
+        background: #FFF;
+    }
+    .c-modul h2 {
+        position: sticky;
+        right: 0;
+        z-index: 999;
+        top: 0;
+        padding: 10px 1em 0;
+        background: #FFF;
+    }
+}
