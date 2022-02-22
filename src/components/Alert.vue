@@ -2,11 +2,10 @@
 <div id="c-alert">
 <div id="alert" @click="closeAlert()">
 <div id="alertpanel">
-    <div id="x">
-    <span class="x">X</span>
-    </div>
-<h2>{{lab1}}</h2>
-<p>{{msg}}</p>
+ <div id="x"> <span class="x">X</span> </div>
+<h2 v-html="lab1"></h2>
+<p v-html="msg"></p>
+
 </div>
 
 </div>
@@ -46,15 +45,14 @@ export default {
     align-items: center;
 }
 #alert {
-    cursor: pointer;
-    max-width: 600px;
     background: #ffffff;
-    padding: 1em;
-    width: 100%;
-    height: 40vh;
     border-radius: 20px;
     box-shadow: 1px 1px 13px 1px #e9e8e8;
-    max-height: 20em;
+    cursor: pointer;
+height: auto;
+    max-width: 600px;
+    padding: 1em;
+    width: 100%;
 }
 
 #alertpanel { font-size: 1.2em; position: relative; }
@@ -63,15 +61,21 @@ export default {
     font-size: 1.4em;
     letter-spacing: 1px;
 }
-span.x {
+#x {
     position: absolute;
     right: 0;
-    font-size: 1em;
-    border-radius: 100%;
+    z-index: 99999;
+}
+span.x {
     background: #eee;
-    width: 32px;
+    border-radius: 100%;
+    color: #e70000;
+    font-size: 1em;
     height: 34px;
     padding: 2px 0 0;
+    position: absolute;
+    right: 0;
+    width: 32px;
 }
 
 

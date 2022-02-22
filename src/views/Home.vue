@@ -30,7 +30,7 @@ export default {
       showServeisweb: false,
       alert1: false,
       labAlert1: "Alerta",
-      msgAlert1: "Emplena nom del client i un servei com a mínim",
+      msgAlert1: "Emplena nom del client,<br> nom del pressupost<br> i un servei com a mínim",
 
     };
   },
@@ -95,7 +95,7 @@ export default {
       this.calcularPreuTotal();
     },
     addPressu(){
-      if ( this.nomClient === "" || this.preuTotal === 0 ) {
+      if ( this.nomPressu === "" || this.nomClient === "" || this.preuTotal === 0 ) {
           this.alert1 = true;
       }else{
 
@@ -137,11 +137,15 @@ export default {
 <MostraPressu :currentPressu="currentPressu" :preuTotal="preuTotal" />
 
       <form class="flex one center c-modul" >
-        <h2>Calculadora de pressupostos</h2>
-        <div class="f-roup">
+        <h2>Calculadora de Pressupostos</h2>
+        <div id="f-camps">
+        <div class="f-group">
           <input type="text" v-model.lazy="nomClient" placeholder="Nom client" />
               </div>
-        <div id="choose-serveis" class="f-roup">
+             <div class="f-group">
+            <input type="text" v-model.lazy="nomPressu" placeholder="Nom Pressupost" />
+          </div>
+        <div id="choose-serveis" class="f-group">
           <input id="check-pressu" type="checkbox" v-model="serveisPicked" value="500" @change="check($event, 0)" />
           <label for="check-pressu" class="checkable">Pàgina web (500€)</label>
           <div v-if="showServeisweb">
@@ -158,18 +162,15 @@ export default {
         </div>
 
         <h3>Preu total: {{ calcularPreuTotal() }} €</h3>
-
-
-          <div class="f-roup">
-            <input type="text" v-model.lazy="nomPressu" placeholder="Nom Pressupost" />
-          </div>
-               <div class="f-roup">
+          <div class="f-group">
             <div v-if="alert1">
             <Alert :lab1="labAlert1" :msg="msgAlert1" @alert="alert1 = $event"  ></Alert>
             </div>
             <button @click="addPressu()" >Guarda el Pressupost</button>
-            </div>
+          </div>
 
+
+</div>
       </form>
 
 <LlistaPressus :pressusList="pressusList" />
@@ -183,7 +184,11 @@ export default {
 #v-home { padding: 0 }
 #c-formulari { padding: 0; }
 h3 { margin: 0; padding: 0; }
-.f-group { margin: 1em 0 0; }
+form {
+  display: flex;
+    align-content: flex-start;
+}
+
 input,
 textarea { max-width: 18em; margin: 10px 0 0; }
 input[type="checkbox"] { width: 1em; }

@@ -2,31 +2,19 @@
 <div id="c-llistaPressus" class="c-modul">
 
 <div v-if="pressusList.length > 0 " id="llistat">
-<h2>Pressupost list</h2>
-<p>Pressuposts guardats: {{pressusList.length}}</p>
+<h2>Listat de Pressupostos</h2>
+<p>Pressupostos guardats: {{pressusList.length}}</p>
 <ul>
     <li class="pressItem" v-for="(item,index ) in pressusList" :key='index' >
-Nom pressupost: {{ item.pressupost[0].nomPressu  }} <br>
-Nom client:     {{ item.pressupost[0].nomClient  }} <br>
-Data:           {{ item.pressupost[0].dataPressu }} <br>
-Preu total:     {{ item.pressupost[0].preuTotal  }} <br>
-Serveis:
-<div v-for="(s,index) in item.pressupost" :key='index'>
-    <span v-if="s.servei">{{s.servei}}</span>
-</div>
-
-<hr>
+        <div v-html="renderPressu(item)"></div>
      </li>
   </ul>
 
 <!--
- Nom Presupost: {{ pressupost[0].nomPressu }}
-        {{ pressupost.resum.nomPressu }}
-
+      <pre>{{ pressusList }}</pre>
  -->
-
 </div>
-    <pre>{{ pressusList }}</pre>
+
 </div>
 </template>
 
@@ -44,11 +32,27 @@ export default {
         }
     },
     methods: {
-renderPressu(idx) {
+
+    renderPressu(item) {
     let output = '';
-    let resum = this.pressusList[idx].resum;
-    let productes = this.pressusList[idx].productes;
-    output += '<h3 class="tit">Resum</h3>';
+    let resum = item.pressupost[0]
+/* */
+output += "<strong>Nom presupost: "+resum.nomPressu+ "</strong><br>";
+output += "Client: "+resum.nomClient+"<br>";
+output += "Data: "+resum.dataPressu+" / ";
+output += "ID: "+resum.id+"<br>";
+output += "<strong>Inclou: </strong> ";
+for(let i=1; i<item.pressupost.length; i++) {
+    if (item.pressupost[i].langs > 0) {
+    let totalServeisWeb = item.pressupost[i].langs * item.pressupost[i].pags * 30;
+    output += item.pressupost[i].servei + ": "+item.pressupost[i].preu+"€<br>";
+    output += item.pressupost[i].langs + " idioma/es + "+item.pressupost[i].pags+" pàgina/es : "+totalServeisWeb+"€<br>";
+    } else {
+    output += item.pressupost[i].servei + ": "+item.pressupost[i].preu+"€<br>";
+    }
+}
+output += "<strong>Preu total: "+resum.preuTotal+"€</strong><br>";
+    return output;
 }
     },
 
@@ -62,16 +66,17 @@ renderPressu(idx) {
     align-items: center;
     flex-direction: column;
 }
-
 li.pressItem {
-    background: rgb(245, 245, 245);
-    border: 1px solid #CCC;
-    min-height: 6em;
-    width: 90%;
+    align-items: flex-start;
+    background: rgb(249 249 249);
+    border-radius: 10px;
+    border: 1px solid #59affa;
+    box-shadow: 1px 1px 9px #e3e3e3c9;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    padding: 10px;
+    padding: 1em;
+    text-align: left;
+    width: 96%;
 }
 @media (min-width: 56.25em) {
 

@@ -5,7 +5,6 @@
 <h2>Pressupost Actual</h2>
 <div id="dadesPressu" v-html="renderPressu()"></div>
 
-<pre>{{currentPressu}}</pre>
 </div>
 
 
@@ -31,10 +30,9 @@ export default {
     //let dataActual = new Date().toLocaleDateString()
 
     output += '<h3 class="tit">Resum</h3>';
-    resum.nomPressu !== '' ? output += resum.nomPressu + '</br>' : 0;
-
-    output += 'Data pressupost: '+ resum.dataPressu + '</br>';
+    resum.nomPressu !== '' ? output += 'Nom pressupost: '+ resum.nomPressu + '</br>' : 0;
     resum.nomClient !== '' ? (output += 'Client: ' + resum.nomClient + '</br>' ) : 0;
+    output += 'Data pressupost: '+ resum.dataPressu + '</br>';
 
     output += '<h3 class="tit">Productes</h3>';
 
