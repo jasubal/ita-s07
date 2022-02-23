@@ -26,7 +26,7 @@ export default {
       resum.nomClient !== ""
         ? (output += "Client: " + resum.nomClient + "</br>")
         : 0;
-      output += "Data pressupost: " + resum.dataPressu + "</br>";
+      output += "Data: " + resum.date + "</br>";
 
       output += '<h3 class="tit">Productes</h3>';
 

@@ -22,7 +22,9 @@ export default ({
 
 <style>
 #v-welcome {
+    display: flex;
     align-items: center;
     min-height: 25vh;
+    align-content: center;
 }
 </style>

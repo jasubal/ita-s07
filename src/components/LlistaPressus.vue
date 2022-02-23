@@ -7,18 +7,21 @@
 <input type="search" v-model.lazy="search" placeholder="Cerca" />
 </div>
 <div class="c-group">
-    <button @click="sortBy='nomPressu'">Ordena A-Z</button>
+    <button @click="sortBy='nomPressuAZ'">A-Z</button>
+    <button @click="sortBy='nomPressuZA'">Z-A</button>
     <button @click="sortBy='preuTotal'">Ordena Preu</button>
-    <button @click="sortList()">test</button>
+    <button @click="sortBy=null">RESET</button>
 </div>
- <pre>{{pressusList2sort}}</pre>
+
 <ul>
-    <li class="pressItem" v-for="(item,index ) in pressusList" :key='index' >
+
+    <li class="pressItem" v-for="(item,index ) in changeList()" :key='index' >
         <div v-html="renderPressu(item)"></div>
      </li>
   </ul>
 
 <!--
+     <pre>{{pressusList2sort}}</pre>
       <pre>{{ pressusList }}</pre>
  -->
 
@@ -36,45 +39,29 @@ export default {
         return {
             sortBy: null,
             pressusList2sort: [],
+            pressusListReversed: [],
         }
     },
     watch: {
-        sortBy: function(){
-            this.sortList() },
+sortBy: function(){
+    this.sortList()
+    console.log("watch sortBy= "+this.sortBy);
     },
-    methods: {
-sortList(){
-this.pressusList2sort = this.pressusList.slice();
-if (this.sortBy === 'nomPressu') {
-    console.log('sort by nomPressu');
-this.pressusList2sort.sort(function(a,b) {
-        if (a.pressupost[0].nomPressu < b.pressupost[0].nomPressu) { return -1; }
-        if (a.pressupost[0].nomPressu > b.pressupost[0].nomPressu) { return 1; }
-        return 0;
-    });
-} else if (this.sortBy === 'preuTotal') {
-    console.log('sort by preuTotal');
-this.pressusList2sort .sort(function(a,b) {
-        if (a.pressupost[0].preuTotal < b.pressupost[0].preuTotal) { return -1; }
-        if (a.pressupost[0].preuTotal > b.pressupost[0].preuTotal) { return 1; }
-        return 0;
-    });
-} else {
-    console.log('sort by null');
-    // reset sort
- this.pressusList2sort.sort(function(a,b) { if (a.pressupost[0].id < b.pressupost[0].id) { return -1; }
-        if (a.pressupost[0].id > b.pressupost[0].id) { return 1; }
-        return 0;
-    });
-}
+pressusList: function(){
+    this.sortList();
+    this.sortBy = null;
+    this.changeList();
+    console.log("watch pressusList= "+this.pressusList);
+    },
 },
+    methods: {
 
-    renderPressu(item) {
+renderPressu(item) {
     let output = '';
     let resum = item.pressupost[0]
     output += "<strong>Nom presupost: "+resum.nomPressu+ "</strong><br>";
     output += "Client: "+resum.nomClient+"<br>";
-    output += "Data: "+resum.dataPressu+" / ";
+    output += "Data: "+resum.date+" / ";
     output += "ID: "+resum.id+"<br>";
     output += "<strong>Inclou: </strong> ";
         for(let i=1; i<item.pressupost.length; i++) {
@@ -88,12 +75,44 @@ this.pressusList2sort .sort(function(a,b) {
     }
     output += "<strong>Preu total: "+resum.preuTotal+"€</strong><br>";
     return output;
-}
-
 },
-// computed: {
+sortList(){
+this.pressusList2sort = this.pressusList.slice().reverse();
+if (this.sortBy === 'nomPressuAZ') {
+    console.log('sort by nomPressuAZ');
+        this.pressusList2sort.sort(function(a,b) {
+        if (a.pressupost[0].nomPressu < b.pressupost[0].nomPressu) { return -1; }
+        if (a.pressupost[0].nomPressu > b.pressupost[0].nomPressu) { return  1; }
+        //return 0;
+    });
+} else if ((this.sortBy === 'nomPressuZA') ){
+    console.log('sort by nomPressuZA');
+        this.pressusList2sort.sort(function(a,b) {
+        if (a.pressupost[0].nomPressu > b.pressupost[0].nomPressu) { return -1; }
+        if (a.pressupost[0].nomPressu < b.pressupost[0].nomPressu) { return  1; }
+        //return 0;
+    });
 
-// }
+} else if (this.sortBy === 'preuTotal') {
+    console.log('sort by preuTotal');
+        this.pressusList2sort .sort(function(a,b) {
+        if (a.pressupost[0].preuTotal < b.pressupost[0].preuTotal) { return -1; }
+        if (a.pressupost[0].preuTotal > b.pressupost[0].preuTotal) { return  1; }
+    });
+} else {
+    console.log('back to original list');
+    // reset sort
+
+      this.changeList();
+}
+},
+changeList(){
+        if(this.sortBy === 'nomPressuAZ' || this.sortBy === 'nomPressuZA' || this.sortBy === 'preuTotal') { return this.pressusList2sort
+        }else{
+            return  this.pressusListReversed = this.pressusList.slice().reverse();
+            }
+    }
+}
 }
 </script>
 

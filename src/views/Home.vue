@@ -34,43 +34,33 @@ export default {
 
     };
   },
+   mounted() {
+    // this.nomPressu.length < 1 ? this.nomPressu = "nom pressupost "+this.getUniqueId() : 0
+  },
   watch : {
     preuTotal:function() {
       console.log("watch this preuTotal: "+ this.preuTotal);
       }
 
   },
-    mounted() {
-      // this.nomPressu.length < 1 ? this.nomPressu = "nom pressupost "+this.getUniqueId() : 0
-
-
-  },
   methods: {
+
+
 
     updateCurrentPresu() {
       this.currentPressu = [];
-      //let productes = markRaw([]);
-      //let productes = [];
-      let dataAvui = new Date().toLocaleDateString()
-
+      let dataAvui = this.getCurrentDateTime();
       this.currentPressu.push( {
         id: this.getUniqueId(),
         nomPressu:this.nomPressu,
         nomClient:this.nomClient,
-        dataPressu: dataAvui,
+        date: dataAvui,
         preuTotal:this.preuTotal,
-
 
         } );
 
-
-  //this.currentPressu.push( productes );
-
-      //this.currentPressu[1].productes.push(servei);
-
    this.serveis.map((servei) => {servei.selected ? this.currentPressu.push(servei) : 0});
-
-      // console.log(this.currentPressu);
+    //console.log(this.currentPressu);
     },
 
     calcularPreuTotal() {
@@ -98,23 +88,12 @@ export default {
       if ( this.nomPressu === "" || this.nomClient === "" || this.preuTotal === 0 ) {
           this.alert1 = true;
       }else{
-
     // la copia con JSON
     // https://www.kuworking.com/javascript-como-copiar-arrays
     // const myJSONCopy = JSON.parse(JSON.stringify(this.currentPressu))
     const pressupost = JSON.parse(JSON.stringify(this.currentPressu))
     //const pressupost = [];
-
-      //console.log(pressuFreezed );
       this.pressusList.push( { pressupost } );
-      //this.pressusList.push( { pressupost } );
-      // this.nomPressu.length > 0 ? this.nomPressu=this.nomPressu : this.nomPressu = "pressu"+this.getUniqueId() ;
-      // this.pressusList.push( {pressupost:{ pressu2add }, });
-      //this.currentPressu});
-      //this.pressusList[this.pressusList.length-1].pressupost.push(this.currentPressu);
-      //this.pressusList[this.pressusList.length-1].push(myJSONCopy);
-      //this.pressusList[this.pressusList.length-1].push({myJSONCopy});
-      //console.log(this.pressusList);
         }
       },
     getUniqueId() {
@@ -122,6 +101,12 @@ export default {
       let uniqueId = window.crypto.getRandomValues(new Uint32Array(1))[0];
       return uniqueId.toString(16);
     },
+    getCurrentDateTime(){
+    let today = new Date();
+    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    return date+' '+time;
+    }
 
   },
 
