@@ -4,12 +4,13 @@
 <div v-if="pressusList.length > 0 " id="llistat">
 <h2>Listat de Pressupostos <span>({{pressusList.length}})</span></h2>
 <div class="c-group">
-<input type="search" v-model.lazy="search" placeholder="Cerca" />
+<input type="search" v-model.lazy="search" placeholder="Cerca pressupostos" />
 </div>
 <div class="c-group">
     <button @click="sortBy='nomPressuAZ'">A-Z</button>
     <button @click="sortBy='nomPressuZA'">Z-A</button>
-    <button @click="sortBy='preuTotal'">Ordena Preu</button>
+    <button @click="sortBy='preuTotalMenor'">Preu ↑</button>
+    <button @click="sortBy='preuTotalMajor'">Preu ↓</button>
     <button @click="sortBy=null">RESET</button>
 </div>
 
@@ -43,18 +44,22 @@ export default {
         }
     },
     watch: {
-sortBy: function(){
-    this.sortList()
-    console.log("watch sortBy= "+this.sortBy);
+    sortBy: function(){
+        this.sortList()
+        console.log("watch sortBy= "+this.sortBy);
     },
-pressusList: function(){
-    this.sortList();
-    this.sortBy = null;
-    this.changeList();
+  pressusList: function(){
     console.log("watch pressusList= "+this.pressusList);
-    },
+   /*
+    this.sortBy = null;
+    this.sortList();
+    this.changeList();
+
+    */
+    }
+
 },
-    methods: {
+methods: {
 
 renderPressu(item) {
     let output = '';
@@ -79,38 +84,40 @@ renderPressu(item) {
 sortList(){
 this.pressusList2sort = this.pressusList.slice().reverse();
 if (this.sortBy === 'nomPressuAZ') {
+    this.pressusList2sort.sort((a,b)=>(
+        a.pressupost[0].nomPressu > b.pressupost[0].nomPressu ? 1 : -1
+    ));
     console.log('sort by nomPressuAZ');
-        this.pressusList2sort.sort(function(a,b) {
+    /*
+    this.pressusList2sort.sort(function(a,b) {
         if (a.pressupost[0].nomPressu < b.pressupost[0].nomPressu) { return -1; }
         if (a.pressupost[0].nomPressu > b.pressupost[0].nomPressu) { return  1; }
-        //return 0;
     });
+    */
 } else if ((this.sortBy === 'nomPressuZA') ){
+    this.pressusList2sort.sort((a,b)=>(
+        a.pressupost[0].nomPressu > b.pressupost[0].nomPressu ? -1 : 1
+    ));
     console.log('sort by nomPressuZA');
-        this.pressusList2sort.sort(function(a,b) {
-        if (a.pressupost[0].nomPressu > b.pressupost[0].nomPressu) { return -1; }
-        if (a.pressupost[0].nomPressu < b.pressupost[0].nomPressu) { return  1; }
-        //return 0;
-    });
-
-} else if (this.sortBy === 'preuTotal') {
-    console.log('sort by preuTotal');
-        this.pressusList2sort .sort(function(a,b) {
-        if (a.pressupost[0].preuTotal < b.pressupost[0].preuTotal) { return -1; }
-        if (a.pressupost[0].preuTotal > b.pressupost[0].preuTotal) { return  1; }
-    });
+} else if (this.sortBy === 'preuTotalMajor') {
+    this.pressusList2sort.sort((a,b)=>(
+        a.pressupost[0].preuTotal > b.pressupost[0].preuTotal ? -1 : 1
+    ));
+    console.log('sort by preuTotalMajor');
+} else if (this.sortBy === 'preuTotalMenor') {
+    this.pressusList2sort.sort((a,b)=>(
+        a.pressupost[0].preuTotal > b.pressupost[0].preuTotal ? 1 : -1
+    ));
+    console.log('sort by preuTotalMenor');
 } else {
     console.log('back to original list');
-    // reset sort
-
       this.changeList();
 }
+
 },
 changeList(){
-        if(this.sortBy === 'nomPressuAZ' || this.sortBy === 'nomPressuZA' || this.sortBy === 'preuTotal') { return this.pressusList2sort
-        }else{
-            return  this.pressusListReversed = this.pressusList.slice().reverse();
-            }
+        if(this.sortBy === null) { return  this.pressusListReversed = this.pressusList.slice().reverse(); }
+        else{ return this.pressusList2sort }
     }
 }
 }
@@ -118,18 +125,10 @@ changeList(){
 
 <style>
 h2 span { font-size: 0.6em; }
-.c-group {
-    display: flex;
-    justify-content: center;
-    margin: 12px;
-}
+.c-group { display: flex; justify-content: center; margin: 12px; }
 .c-group  input { border: 1px solid #e0e0e0; max-width: 80%; }
 .c-group  button { font-size: .8em; margin: 2px; }
-#llistat ul {
-    flex-wrap: wrap;
-    align-items: center;
-    flex-direction: column;
-}
+#llistat ul { flex-wrap: wrap; align-items: center; flex-direction: column; }
 li.pressItem {
     align-items: flex-start;
     background: rgb(249 249 249);
