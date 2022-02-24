@@ -32,26 +32,27 @@ export default {
 
 <style>
 #c-alert {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    background: #ffffffbd;
+    align-content: center;
+    align-items: center;
+background: #ffffff6b;
     display: flex;
     flex-direction: column;
-    align-content: center;
+    height: 100vh;
     justify-content: center;
-    align-items: center;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
 }
 #alert {
     background: #ffffff;
     border-radius: 20px;
     box-shadow: 1px 1px 13px 1px #e9e8e8;
     cursor: pointer;
-height: auto;
-    max-width: 600px;
-    padding: 1em;
+    height: auto;
+    line-height: 1.4;
+    max-width: 540px;
+    padding: 1em 2em;
     width: 100%;
 }
 
@@ -60,6 +61,7 @@ height: auto;
     color: #e70000;
     font-size: 1.4em;
     letter-spacing: 1px;
+    border-top: none;
 }
 #x {
     position: absolute;

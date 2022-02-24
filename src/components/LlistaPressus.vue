@@ -14,7 +14,7 @@
     <button @click="sortBy=null">RESET</button>
 </div>
 
-<ul>
+<ul id="list-items">
 
     <li class="pressItem" v-for="(item,index ) in changeList()" :key='index' >
         <div v-html="renderPressu(item)"></div>
@@ -35,30 +35,39 @@
 export default {
 
     name: "LlistaPressus",
-    props: ["pressusList"],
+    props: ["pressusList","pressusListLength"],
     data() {
         return {
             sortBy: null,
             pressusList2sort: [],
             pressusListReversed: [],
+
         }
     },
+    updated() {
+        console.log('dom updated!')
+     },
+    mounted() {
+        console.log('dom mounted!')
+     },
     watch: {
+
+    pressusListLength: function(){
+        this.sortBy=null;
+        this.changeList();
+         console.log("pressusListLength watch sortBy= "+this.sortBy);
+        //this.sortList();
+    },
     sortBy: function(){
-        this.sortList()
+        this.sortList();
         console.log("watch sortBy= "+this.sortBy);
     },
-  pressusList: function(){
-    console.log("watch pressusList= "+this.pressusList);
-   /*
-    this.sortBy = null;
-    this.sortList();
-    this.changeList();
-
-    */
-    }
 
 },
+onBeforeUpdate: function(){
+    console.log("onBeforeUpdate");
+},
+
 methods: {
 
 renderPressu(item) {
@@ -81,8 +90,13 @@ renderPressu(item) {
     output += "<strong>Preu total: "+resum.preuTotal+"€</strong><br>";
     return output;
 },
+
+changeList(){
+    if(this.sortBy === null) { return  this.pressusListReversed = this.pressusList.slice().reverse(); }
+    else{ return this.pressusList2sort }
+},
 sortList(){
-this.pressusList2sort = this.pressusList.slice().reverse();
+    this.pressusList2sort = this.pressusList;
 if (this.sortBy === 'nomPressuAZ') {
     this.pressusList2sort.sort((a,b)=>(
         a.pressupost[0].nomPressu > b.pressupost[0].nomPressu ? 1 : -1
@@ -114,13 +128,7 @@ if (this.sortBy === 'nomPressuAZ') {
       this.changeList();
 }
 
-},
-changeList(){
-        if(this.sortBy === null) { return  this.pressusListReversed = this.pressusList.slice().reverse(); }
-        else{ return this.pressusList2sort }
-    }
-}
-}
+}} }
 </script>
 
 <style>

@@ -26,6 +26,7 @@ export default {
       serveisPicked: [],
       currentPressu: [],
       pressusList: [],
+      pressusListLength: 0,
       preuTotal: 0,
       showServeisweb: false,
       alert1: false,
@@ -44,8 +45,6 @@ export default {
 
   },
   methods: {
-
-
 
     updateCurrentPresu() {
       this.currentPressu = [];
@@ -94,6 +93,8 @@ export default {
     const pressupost = JSON.parse(JSON.stringify(this.currentPressu))
     //const pressupost = [];
       this.pressusList.push( { pressupost } );
+      this.pressusListLength = this.pressusList.length;
+      //this.sortBy = null;
         }
       },
     getUniqueId() {
@@ -121,7 +122,7 @@ export default {
 
 <MostraPressu :currentPressu="currentPressu" :preuTotal="preuTotal" />
 
-      <form class="flex one center c-modul" >
+      <form id="c-form" class="flex one center c-modul" >
         <h2>Calculadora de Pressupostos</h2>
         <div id="f-camps">
         <div class="f-group">
@@ -158,7 +159,7 @@ export default {
 </div>
       </form>
 
-<LlistaPressus :pressusList="pressusList" />
+<LlistaPressus :pressusList="pressusList" :pressusListLength="pressusListLength" />
 
     </div>
   </div>
