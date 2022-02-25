@@ -66,7 +66,6 @@ a { color: #0988f7; }
     }
 
 }
-
 @media (min-width: 75em) {
     #app-brand {
         position: absolute;
@@ -90,7 +89,7 @@ a { color: #0988f7; }
         right: 0;
         z-index: 999;
         top: 0;
-        padding: 10px 1em 10px;
+        padding: 10px;
         background: #FFF;
         border-bottom: 4px solid #a7d5fc;
         border-top: 6px solid #bebebe;

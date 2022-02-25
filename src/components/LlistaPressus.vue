@@ -4,16 +4,17 @@
 <div v-if="pressusList.length > 0 " id="llistat">
 <h2>Listat de Pressupostos <span>({{pressusList.length}})</span></h2>
 <div class="c-group">
-<input type="search" v-model.lazy="search" placeholder="Cerca pressupostos" />
+<input id="searchInput" @keyup="handleInput()" type="text" placeholder="Cerca pressupostos..." v-model="searchInput" />
+<button id="lupa" @click="handleInput()">🔎</button>
 </div>
 <div class="c-group">
     <button @click="sortBy='nomPressuAZ'">A-Z</button>
     <button @click="sortBy='nomPressuZA'">Z-A</button>
     <button @click="sortBy='preuTotalMenor'">Preu ↑</button>
     <button @click="sortBy='preuTotalMajor'">Preu ↓</button>
+    <button @click="sortBy='date'">Data</button>
     <button @click="sortBy=null">RESET</button>
 </div>
-
 <ul id="list-items">
 
     <li class="pressItem" v-for="(item,index ) in changeList()" :key='index' >
@@ -22,6 +23,7 @@
   </ul>
 
 <!--
+    <p>{{searchInput}}</p>
      <pre>{{pressusList2sort}}</pre>
       <pre>{{ pressusList }}</pre>
  -->
@@ -39,8 +41,10 @@ export default {
     data() {
         return {
             sortBy: null,
+            searchInput: "",
             pressusList2sort: [],
             pressusListReversed: [],
+            pressusListResults: [],
 
         }
     },
@@ -55,12 +59,12 @@ export default {
     pressusListLength: function(){
         this.sortBy=null;
         this.changeList();
-         console.log("pressusListLength watch sortBy= "+this.sortBy);
+         console.log("pressusListLength watch sortBy="+this.sortBy);
         //this.sortList();
     },
     sortBy: function(){
         this.sortList();
-        console.log("watch sortBy= "+this.sortBy);
+        console.log("watch sortBy="+this.sortBy);
     },
 
 },
@@ -123,20 +127,65 @@ if (this.sortBy === 'nomPressuAZ') {
         a.pressupost[0].preuTotal > b.pressupost[0].preuTotal ? 1 : -1
     ));
     console.log('sort by preuTotalMenor');
-} else {
+} else if (this.sortBy === 'searchTerm') {
+      console.log('sort by searchTerm');
+      if (this.searchInput !== '') {
+  this.pressusListResults = this.pressusList2sort.filter((a) => (
+    a.pressupost[0].nomPressu.toLowerCase().includes(this.searchInput.toLowerCase())
+  ));
+    this.pressusList2sort = this.pressusListResults;
+      console.log(this.pressusList2sort);
+      } else {
+        console.log('no searchTerm');
+        this.sortBy === null;
+        this.changeList();
+      }
+}
+else {
     console.log('back to original list');
       this.changeList();
 }
+},
+handleInput() {
+      console.log(this.searchInput);
+      this.sortBy="searchTerm";
+      //this.changeList();
+      this.sortList();
+    },
 
-}} }
+} }
 </script>
 
 <style>
 h2 span { font-size: 0.6em; }
-.c-group { display: flex; justify-content: center; margin: 12px; }
+.c-group {
+    display: flex;
+    justify-content: center;
+    margin: 12px;
+    align-items: center;
+}
 .c-group  input { border: 1px solid #e0e0e0; max-width: 80%; }
 .c-group  button { font-size: .8em; margin: 2px; }
-#llistat ul { flex-wrap: wrap; align-items: center; flex-direction: column; }
+#searchInput{
+    border: 1px solid #e0e0e0;
+    max-width: 75%;
+    margin: 0 10px;
+}
+#lupa {
+    height: 100%;
+    margin: 0;
+    padding: 4px 9px;
+    border: 1px solid;
+    font-size: 1em;
+    background: #f9f9f900;
+}
+#llistat ul {
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: column;
+    padding-inline-start: 24px;
+}
+
 li.pressItem {
     align-items: flex-start;
     background: rgb(249 249 249);

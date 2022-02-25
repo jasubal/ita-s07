@@ -52,7 +52,7 @@ modals: [
 </script>
 
 <style scoped>
-#c-panell { padding: 1em; display: flex; flex-direction: column; align-items: flex-start; border: 2px solid #e8e5e5; border-radius: 10px; }
+#c-panell { padding:0 1em; display: flex; flex-direction: column; align-items: flex-start; border: 2px solid #e8e5e5; border-radius: 10px; }
 li { margin: 0 0 .3em; display: flex; align-items: center; flex-wrap: nowrap; flex-direction: row; }
 li span { margin: 0 8px 0 0 }
 input { background: transparent; width: 3.2em; margin: 0 10px; text-align: center; }

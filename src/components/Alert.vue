@@ -5,7 +5,6 @@
  <div id="x"> <span class="x">X</span> </div>
 <h2 v-html="lab1"></h2>
 <p v-html="msg"></p>
-
 </div>
 
 </div>

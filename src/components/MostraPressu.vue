@@ -21,23 +21,23 @@ export default {
 
       output += '<h3 class="tit">Resum</h3>';
       resum.nomPressu !== ""
-        ? (output += "Nom pressupost: " + resum.nomPressu + "</br>")
-        : 0;
+        ? (output += "Nom pressupost: " + resum.nomPressu + "</br>") : 0;
       resum.nomClient !== ""
-        ? (output += "Client: " + resum.nomClient + "</br>")
-        : 0;
+        ? (output += "Client: " + resum.nomClient + "</br>") : 0;
       output += "Data: " + resum.date + "</br>";
 
       output += '<h3 class="tit">Productes</h3>';
 
       this.currentPressu.forEach((item, index) => {
-        if (index > 0) {
+
+      if (index > 0) {
           if (item.langs > 0) {
             let totalServeisWeb = item.langs * item.pags * 30;
             output += item.servei + ": " + item.preu + "€<br>";
             output += item.langs + " idioma/es + " + item.pags + " pàgina/es : " + totalServeisWeb + "€<br>";
           } else { output += item.servei + ": " + item.preu + "€<br>"; }
         }
+
       });
 
       output += "<br>";
@@ -59,6 +59,16 @@ export default {
 }
 #dadesPressu {
   text-align: left;
+  padding: 0 3em;
+}
+@media (min-width: 56.25em) {
+#dadesPressu {
+  text-align: left;
   padding: 0 2em;
 }
+}
+
+@media (min-width: 75em) {
+
+ }
 </style>
