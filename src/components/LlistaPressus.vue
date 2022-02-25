@@ -49,12 +49,13 @@ export default {
         }
     },
     updated() {
-        console.log('dom updated!')
+        //console.log('dom LlistaPressus updated!')
      },
     mounted() {
-        console.log('dom mounted!')
+        //console.log('dom LlistaPressus mounted!')
      },
-    watch: {
+
+watch: {
 
     pressusListLength: function(){
         this.sortBy=null;
@@ -102,6 +103,7 @@ changeList(){
 sortList(){
     this.pressusList2sort = this.pressusList;
 
+
 if (this.sortBy === 'nomPressuAZ') {
     this.pressusList2sort.sort((a,b)=>(
         a.pressupost[0].nomPressu.toLowerCase() > b.pressupost[0].nomPressu.toLowerCase() ? 1 : -1
@@ -135,7 +137,7 @@ if (this.sortBy === 'nomPressuAZ') {
     this.pressusList2sort.sort((a,b)=>(
         a.pressupost[0].date > b.pressupost[0].date ? 1 : -1
     ));
-    console.log('sort by preuTotalMenor');
+    console.log('sorted by date');
 
 } else if (this.sortBy === 'searchTerm') {
       console.log('sort by searchTerm');
@@ -155,6 +157,8 @@ else {
     console.log('back to original list');
       this.changeList();
 }
+
+
 },
 handleInput() {
       console.log(this.searchInput);

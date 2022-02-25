@@ -43,7 +43,7 @@ modals: [
             //console.log(this.serveisweb);
         },
         subtract(item) {
-            item.num < 1 ? item.num = 1 : item.num--;
+            item.num < 2 ? item.num = 1 : item.num--;
             this.$emit("serveisweb", this.serveisweb);
             //console.log(this.serveisweb);
         },
