@@ -101,9 +101,10 @@ changeList(){
 },
 sortList(){
     this.pressusList2sort = this.pressusList;
+
 if (this.sortBy === 'nomPressuAZ') {
     this.pressusList2sort.sort((a,b)=>(
-        a.pressupost[0].nomPressu > b.pressupost[0].nomPressu ? 1 : -1
+        a.pressupost[0].nomPressu.toLowerCase() > b.pressupost[0].nomPressu.toLowerCase() ? 1 : -1
     ));
     console.log('sort by nomPressuAZ');
     /*
@@ -114,19 +115,28 @@ if (this.sortBy === 'nomPressuAZ') {
     */
 } else if ((this.sortBy === 'nomPressuZA') ){
     this.pressusList2sort.sort((a,b)=>(
-        a.pressupost[0].nomPressu > b.pressupost[0].nomPressu ? -1 : 1
+        a.pressupost[0].nomPressu.toLowerCase() > b.pressupost[0].nomPressu.toLowerCase() ? -1 : 1
     ));
     console.log('sort by nomPressuZA');
+
 } else if (this.sortBy === 'preuTotalMajor') {
     this.pressusList2sort.sort((a,b)=>(
         a.pressupost[0].preuTotal > b.pressupost[0].preuTotal ? -1 : 1
     ));
     console.log('sort by preuTotalMajor');
+
 } else if (this.sortBy === 'preuTotalMenor') {
     this.pressusList2sort.sort((a,b)=>(
         a.pressupost[0].preuTotal > b.pressupost[0].preuTotal ? 1 : -1
     ));
     console.log('sort by preuTotalMenor');
+
+} else if (this.sortBy === 'date') {
+    this.pressusList2sort.sort((a,b)=>(
+        a.pressupost[0].date > b.pressupost[0].date ? 1 : -1
+    ));
+    console.log('sort by preuTotalMenor');
+
 } else if (this.sortBy === 'searchTerm') {
       console.log('sort by searchTerm');
       if (this.searchInput !== '') {
