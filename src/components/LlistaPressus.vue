@@ -10,8 +10,8 @@
 <div class="c-group">
     <button @click="sortBy='nomPressuAZ'">A-Z</button>
     <button @click="sortBy='nomPressuZA'">Z-A</button>
-    <button @click="sortBy='preuTotalMenor'">Preu ↑</button>
-    <button @click="sortBy='preuTotalMajor'">Preu ↓</button>
+    <button @click="sortBy='preuTotalMenor'">Preu↑</button>
+    <button @click="sortBy='preuTotalMajor'">Preu↓</button>
     <button @click="sortBy='date'">Data</button>
     <button @click="sortBy=null">RESET</button>
 </div>

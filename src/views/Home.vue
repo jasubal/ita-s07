@@ -38,6 +38,19 @@ export default {
     };
 },
 watch: {
+      nomClient : function() {
+        this.calculaPreuTotal();
+        console.log("nomClient: watch preuTotal: "+ this.preuTotal);
+      },
+      nomPressu : function() {
+        this.calculaPreuTotal();
+        console.log("nomPressu: watch preuTotal: "+ this.preuTotal);
+      },
+      preuTotal : function() {
+        this.calculaPreuTotal();
+        console.log("preuTotal: watch preuTotal: "+ this.preuTotal);
+      },
+
 
 },
 mounted() {
@@ -46,8 +59,8 @@ mounted() {
 },
 updated() {
   console.log('dom Home updated!')
-  this.calculaPreuTotal();
-// this.updateUrl();
+  //this.calculaPreuTotal();
+  this.updateUrl();
 // this.updateFromUrl();
 //this.updateUrl();
 },
@@ -60,20 +73,19 @@ methods: {
     this.serveis.map((servei) => { servei.selected ? this.currentPressu.push(servei) : 0 });
       //console.log(this.currentPressu);
   },
-
-    calculaPreuTotal() {
-      this.preuTotal = 0;
-      this.serveisPicked = [];
-      this.serveisPicked = this.serveis.filter((item) => item.selected == true);
+  calculaPreuTotal() {
+    this.preuTotal = 0;
+    this.serveisPicked = [];
+    this.serveisPicked = this.serveis.filter((item) => item.selected == true);
       //console.log(this.serveisPicked);
-      let totalServeis = this.serveisPicked.reduce(
+    let totalServeis = this.serveisPicked.reduce(
         (accumulator, currentItem) => { return accumulator + currentItem.preu; }, 0);
-      // console.log("Total serveis: "+totalServeis);
-      this.totalServeisWeb = this.serveis[0].langs * this.serveis[0].pags * 30;
-      this.showServeisweb == true ? (this.preuTotal = totalServeis + this.totalServeisWeb) : (this.preuTotal = totalServeis);
-      //console.log(this.preuTotal);
-      this.updateCurrentPresu();
-      return this.preuTotal;
+    // console.log("Total serveis: "+totalServeis);
+    this.totalServeisWeb = this.serveis[0].langs * this.serveis[0].pags * 30;
+    this.showServeisweb == true ? (this.preuTotal = totalServeis + this.totalServeisWeb) : (this.preuTotal = totalServeis);
+    //console.log(this.preuTotal);
+    this.updateCurrentPresu();
+    return this.preuTotal;
     },
 
     check(e,idx) {
@@ -159,10 +171,10 @@ this.serveis[0].selected == true
         <h2>Calculadora de Pressupostos</h2>
         <div id="f-camps">
           <div class="f-group">
-            <input type="text" v-model.lazy="nomClient" placeholder="Nom client" />
+            <input type="text" v-model="nomClient" placeholder="Nom client" />
           </div>
           <div class="f-group">
-            <input type="text" v-model.lazy="nomPressu" placeholder="Nom Pressupost" />
+            <input type="text" v-model="nomPressu" placeholder="Nom Pressupost" />
           </div>
           <div id="choose-serveis" class="f-group">
             <input
