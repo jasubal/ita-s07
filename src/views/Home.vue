@@ -41,27 +41,18 @@ watch: {
 // preuTotal: function () { console.log("watch this preuTotal: " + this.preuTotal); },
 },
 mounted() {
+//this.updateFromUrl();
+this.updateUrl();
 
 
 },
 updated() {
+  //this.calculaPreuTotal()
 //console.log('dom Home updated!')
-// creating the parametric url
-this.serveis[0].selected == true
-? this.$router.push({path:'/home', query:{
-  // hash: this.idPressu,
-  web: this.serveis[0].selected, langs: this.serveisweb[0].num, pags: this.serveisweb[1].num,
-  seo: this.serveis[1].selected,
-  ads: this.serveis[2].selected,
-  total: this.preuTotal,
-  }})
-: this.$router.push({path:'/home', query:{
-  // hash: this.idPressu,
-  web: this.serveis[0].selected,
-  seo: this.serveis[1].selected,
-  ads: this.serveis[2].selected,
-  total: this.preuTotal,
-  }})
+  // this.updateUrl();
+  // this.updateFromUrl();
+  this.updateUrl();
+
 
 },
 
@@ -75,13 +66,27 @@ methods: {
       //console.log(this.currentPressu);
   },
 
-    calcularPreuTotal() {
+    calculaPreuTotal() {
       this.preuTotal = 0;
-      const totalServeis = this.serveisPicked.reduce((partialSum, num) => partialSum + parseInt(num), 0);
-      const totalServeisWeb = this.serveisweb[0].num * this.serveisweb[1].num * 30;
-      this.serveis[0].langs = this.serveisweb[0].num;
-      this.serveis[0].pags = this.serveisweb[1].num;
+      this.serveisPicked = [];
+
+      let totalServeisWeb = this.serveisweb[0].num * this.serveisweb[1].num * 30;
+      //this.serveis[0].langs = this.serveisweb[0].num;
+      //this.serveis[0].pags = this.serveisweb[1].num;
+
+      //const totalServeis = this.serveisPicked.reduce((partialSum, num) => partialSum + parseInt(num), 0);
+      // arr.reduce((a, b) => ({x: a.x + b.x}));
+      //const totalServeis = this.serveisPicked.reduce((a, b) => ({x: a.preu + b.preu}));
+      this.serveisPicked = this.serveis.filter((item) => item.selected == true);
+      //console.log(this.serveisPicked);
+      //let totalServeis = this.serveisPicked.reduce((a, b) => ( a.preu + b.preu));
+      let totalServeis = this.serveisPicked.reduce((accumulator, currentItem) => {
+          return accumulator + currentItem.preu;
+        }, 0);
+      // console.log("Total serveis: "+totalServeis);
+
       this.showServeisweb == true ? (this.preuTotal = totalServeis + totalServeisWeb) : (this.preuTotal = totalServeis);
+      //console.log(this.preuTotal);
       this.updateCurrentPresu();
       return this.preuTotal;
     },
@@ -94,7 +99,7 @@ methods: {
       this.showServeisweb = this.serveis[0].selected;
       //console.log(this.showServeisweb);
       //console.log(selected, e.target.value );
-      this.calcularPreuTotal();
+      this.calculaPreuTotal();
     },
     addPressu() {
       if (this.nomPressu === "" || this.nomClient === "" || this.preuTotal === 0) {
@@ -120,7 +125,35 @@ methods: {
       let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
       let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       return date + ' ' + time;
-    }
+    },
+    updateFromUrl() {
+      /*
+      this.serveis[0].selected = this.$route.query.web;
+      this.serveis[1].selected = this.$route.query.seo;
+      this.serveis[2].selected = this.$route.query.ads;
+      */
+    },
+
+updateUrl(){
+      // creating the parametric url
+      /*
+this.serveis[0].selected == true
+? this.$router.push({path:'/home', query:{
+  // hash: this.idPressu,
+  web: this.serveis[0].selected, langs: this.serveisweb[0].num, pags: this.serveisweb[1].num,
+  seo: this.serveis[1].selected,
+  ads: this.serveis[2].selected,
+  total: this.preuTotal,
+  }})
+: this.$router.push({path:'/home', query:{
+  // hash: this.idPressu,
+  web: this.serveis[0].selected,
+  seo: this.serveis[1].selected,
+  ads: this.serveis[2].selected,
+  total: this.preuTotal,
+  }})
+*/
+  }
 
   },
 
@@ -131,11 +164,12 @@ methods: {
 <template>
   <div id="v-home" class="maxW1300">
 <div id="ruta">
-{{$route.query.web}}
+ {{ $route.query }}
 </div>
 
 
     <div id="c-formulari" class="flex one three-800 center">
+
       <MostraPressu :currentPressu="currentPressu" :preuTotal="preuTotal" />
 
       <form id="c-form" class="flex one center c-modul">
@@ -151,20 +185,20 @@ methods: {
             <input
               id="check-pressu"
               type="checkbox"
-              v-model="serveisPicked"
-              value="500"
+              v-model="serveis[0].selected"
+              value="true"
               @change="check($event, 0)"
             />
             <label for="check-pressu" class="checkable">Pàgina web (500€)</label>
             <div v-if="showServeisweb">
-              <Panell :serveisweb="serveisweb" @serveisweb="serveisweb = $event" />
+              <Panell :serveis="serveis" @serveis="serveis=$event" />
             </div>
 
             <input
               id="check-seo"
               type="checkbox"
-              v-model="serveisPicked"
-              value="300"
+               v-model="serveis[1].selected"
+              value="true"
               @change="check($event, 1)"
             />
             <label for="check-seo" class="checkable">Consultoria SEO (300 €)</label>
@@ -172,14 +206,14 @@ methods: {
             <input
               id="check-ads"
               type="checkbox"
-              v-model="serveisPicked"
-              value="400"
+           v-model="serveis[2].selected"
+              value="true"
               @change="check($event, 2)"
             />
             <label for="check-ads" class="checkable">Campanya de Publicitat (400 €)</label>
           </div>
 
-          <h3>Preu total: {{ calcularPreuTotal() }} €</h3>
+          <h3>Preu total: {{ preuTotal }} €</h3>
           <div class="f-group">
             <div v-if="alert1">
               <Alert :lab1="labAlert1" :msg="msgAlert1" @alert="alert1 = $event"></Alert>
