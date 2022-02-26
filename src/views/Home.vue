@@ -46,7 +46,7 @@ mounted() {
 },
 updated() {
   console.log('dom Home updated!')
-// this.calculaPreuTotal();
+  this.calculaPreuTotal();
 // this.updateUrl();
 // this.updateFromUrl();
 //this.updateUrl();
@@ -96,6 +96,7 @@ methods: {
         const pressupost = JSON.parse(JSON.stringify(this.currentPressu))
         //const pressupost = [];
         this.pressusList.push({ pressupost });
+        console.log(this.pressusList);
         this.pressusListLength = this.pressusList.length;
         //this.sortBy = null;
       }
@@ -146,7 +147,7 @@ this.serveis[0].selected == true
 <template>
   <div id="v-home" class="maxW1300">
 <div id="ruta">
- {{ $route.query }}
+<!--  {{ $route.query }} -->
 </div>
 
 
@@ -212,29 +213,12 @@ this.serveis[0].selected == true
 
 
 <style scoped>
-#v-home {
-  padding: 0;
-}
-#c-formulari {
-  padding: 0;
-}
-h3 {
-  margin: 0;
-  padding: 0;
-}
-form {
-  display: flex;
-  align-content: flex-start;
-}
-
-input,
-textarea {
-  max-width: 18em;
-  margin: 10px 0 0;
-}
-input[type="checkbox"] {
-  width: 1em;
-}
+#v-home { padding: 0; }
+#c-formulari { padding: 0; }
+h3 { margin: 0; padding: 0; }
+form { display: flex; align-content: flex-start; }
+input, textarea { max-width: 18em; margin: 10px 0 0; }
+input[type="checkbox"] { width: 1em; }
 #choose-serveis {
   width: 100%;
   display: flex;
@@ -243,16 +227,10 @@ input[type="checkbox"] {
   align-content: center;
   align-items: flex-start;
 }
-label {
-  margin: 10px 0;
-  cursor: pointer;
-}
+label { margin: 10px 0; cursor: pointer; }
 
 @media (min-width: 56.25em) {
-  form {
-    background: #fdfdfd;
-    width: 33%;
-  }
+
 }
 
 @media (min-width: 75em) {

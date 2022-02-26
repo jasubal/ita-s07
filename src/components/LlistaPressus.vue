@@ -16,7 +16,6 @@
     <button @click="sortBy=null">RESET</button>
 </div>
 <ul id="list-items">
-
     <li class="pressItem" v-for="(item,index ) in changeList()" :key='index' >
         <div v-html="renderPressu(item)"></div>
      </li>
@@ -198,6 +197,7 @@ h2 span { font-size: 0.6em; }
     align-items: center;
     flex-direction: column;
     padding-inline-start: 24px;
+    overflow-y: scroll;
 }
 
 li.pressItem {
@@ -217,6 +217,13 @@ li.pressItem {
 }
 
 @media (min-width: 75em) {
-
+#llistat ul {
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: column;
+    padding-inline-start: 24px;
+    overflow-y: scroll;
+    max-height: 50vh;
+}
  }
 </style>
