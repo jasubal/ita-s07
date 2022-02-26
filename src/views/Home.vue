@@ -11,7 +11,7 @@ export default {
   components: { Panell, Alert, MostraPressu, LlistaPressus },
   data() {
     return {
-
+      urlQuery:'',
       idPressu:'',
       nomClient:'',
       nomPressu:'',
@@ -38,37 +38,48 @@ export default {
     };
 },
 watch: {
-      nomClient : function() {
-        this.calculaPreuTotal();
-        console.log("nomClient: watch preuTotal: "+ this.preuTotal);
-      },
-      nomPressu : function() {
-        this.calculaPreuTotal();
-        console.log("nomPressu: watch preuTotal: "+ this.preuTotal);
-      },
+  serveis: {
+      handler: function() { this.calculaPreuTotal(); },
+      deep: true
+  },
+  nomClient : function() { this.calculaPreuTotal(); },
+  nomPressu : function() { this.calculaPreuTotal(); },
+/*
       preuTotal : function() {
         this.calculaPreuTotal();
         console.log("preuTotal: watch preuTotal: "+ this.preuTotal);
+        //this.urlQuery = this.$route.query;
+        //console.log(this.urlQuery);
       },
-
-
+      totalServeisWeb: function() {
+        this.calculaPreuTotal();
+        //console.log("totalServeisWeb: watch preuTotal: "+ this.preuTotal);
+      },
+      $route: function() {
+        this.urlQuery = this.$route.query;
+        console.log("urlQuery is:");
+        console.log(this.urlQuery);
+      }
+*/
 },
 mounted() {
-//this.updateFromUrl();
+  console.log('dom Home mounted!')
+  this.updateFromUrl();
+//this.calculaPreuTotal()
 //this.updateUrl();
 },
 updated() {
   console.log('dom Home updated!')
-  //this.calculaPreuTotal();
+//this.calculaPreuTotal();
   this.updateUrl();
 // this.updateFromUrl();
-//this.updateUrl();
 },
 methods: {
   updateCurrentPresu() {
     let dataAvui = this.getCurrentDateTime();
     this.idPressu = this.getUniqueId();
     this.currentPressu = [];
+    //this.calculaPreuTotal();
     this.currentPressu.push({ id:this.idPressu, nomPressu: this.nomPressu, nomClient: this.nomClient, date: dataAvui, preuTotal: this.preuTotal, });
     this.serveis.map((servei) => { servei.selected ? this.currentPressu.push(servei) : 0 });
       //console.log(this.currentPressu);
@@ -81,13 +92,17 @@ methods: {
     let totalServeis = this.serveisPicked.reduce(
         (accumulator, currentItem) => { return accumulator + currentItem.preu; }, 0);
     // console.log("Total serveis: "+totalServeis);
-    this.totalServeisWeb = this.serveis[0].langs * this.serveis[0].pags * 30;
+    this.calculaServeisWeb();
     this.showServeisweb == true ? (this.preuTotal = totalServeis + this.totalServeisWeb) : (this.preuTotal = totalServeis);
-    //console.log(this.preuTotal);
+    this.preuTotal = totalServeis + this.totalServeisWeb;
+    console.log(this.preuTotal);
     this.updateCurrentPresu();
     return this.preuTotal;
     },
-
+calculaServeisWeb() {
+  this.totalServeisWeb = this.serveis[0].langs * this.serveis[0].pags * 30;
+  //return this.totalServeisWeb;
+},
     check(e,idx) {
       this.serveis[idx].selected = e.target.checked;
       console.log("↓ chek/unchek ↓ ");
@@ -127,27 +142,31 @@ methods: {
 
 updateFromUrl() {
       this.serveis[0].selected = this.$route.query.web;
+      this.$route.query.web === "true" ? this.showServeisweb = true : this.showServeisweb = false;
+      this.serveis[0].langs    = this.$route.query.langs;
+      this.serveis[0].pags     = this.$route.query.pags;
       this.serveis[1].selected = this.$route.query.seo;
       this.serveis[2].selected = this.$route.query.ads;
+      this.calculaPreuTotal();
+      //this.preuTotal = this.$route.query.total;
+
+
     },
 
 updateUrl(){
-      // creating the parametric url
-this.serveis[0].selected == true
-? this.$router.push({path:'/home', query:{
-  // hash: this.idPressu,
-  web: this.serveis[0].selected, langs: this.serveisweb[0].num, pags: this.serveisweb[1].num,
-  seo: this.serveis[1].selected,
-  ads: this.serveis[2].selected,
-  total: this.preuTotal,
-  }})
-: this.$router.push({path:'/home', query:{
+// creating the parametric url
+this.$router.push({path:'/home', query:{
   // hash: this.idPressu,
   web: this.serveis[0].selected,
+  langs: this.serveis[0].langs,
+  pags: this.serveis[0].pags,
   seo: this.serveis[1].selected,
   ads: this.serveis[2].selected,
   total: this.preuTotal,
   }})
+
+this.urlQuery = this.$route.query;
+
   }
   },
   // end methods:
@@ -159,7 +178,7 @@ this.serveis[0].selected == true
 <template>
   <div id="v-home" class="maxW1300">
 <div id="ruta">
-<!--  {{ $route.query }} -->
+{{ $route.query }}
 </div>
 
 
