@@ -16,7 +16,7 @@ export default {
       nomClient:'',
       nomPressu:'',
       serveis: [
-        { servei: "Pàgina web", slug:"website", preu: 500, selected: false, langs: 0, pags: 0, },
+        { servei: "Pàgina web", slug:"website", preu: 500, selected: false, langs: 1, pags: 1, },
         { servei: "Consultoria SEO", slug:"seo", preu: 300, selected: false },
         { servei: "Campanya de Publicitat", slug:"ads", preu: 400, selected: false },
       ],
@@ -30,32 +30,27 @@ export default {
       pressusListLength: 0,
       preuTotal: 0,
       showServeisweb: false,
+      totalServeisWeb: 0,
       alert1: false,
       labAlert1: "Alerta",
       msgAlert1: "Emplena nom del client,<br> nom del pressupost<br> i un servei com a mínim",
 
     };
-  },
-
+},
 watch: {
-// preuTotal: function () { console.log("watch this preuTotal: " + this.preuTotal); },
+
 },
 mounted() {
 //this.updateFromUrl();
-this.updateUrl();
-
-
+//this.updateUrl();
 },
 updated() {
-  //this.calculaPreuTotal()
-//console.log('dom Home updated!')
-  // this.updateUrl();
-  // this.updateFromUrl();
-  this.updateUrl();
-
-
+  console.log('dom Home updated!')
+// this.calculaPreuTotal();
+// this.updateUrl();
+// this.updateFromUrl();
+//this.updateUrl();
 },
-
 methods: {
   updateCurrentPresu() {
     let dataAvui = this.getCurrentDateTime();
@@ -69,23 +64,13 @@ methods: {
     calculaPreuTotal() {
       this.preuTotal = 0;
       this.serveisPicked = [];
-
-      let totalServeisWeb = this.serveisweb[0].num * this.serveisweb[1].num * 30;
-      //this.serveis[0].langs = this.serveisweb[0].num;
-      //this.serveis[0].pags = this.serveisweb[1].num;
-
-      //const totalServeis = this.serveisPicked.reduce((partialSum, num) => partialSum + parseInt(num), 0);
-      // arr.reduce((a, b) => ({x: a.x + b.x}));
-      //const totalServeis = this.serveisPicked.reduce((a, b) => ({x: a.preu + b.preu}));
       this.serveisPicked = this.serveis.filter((item) => item.selected == true);
       //console.log(this.serveisPicked);
-      //let totalServeis = this.serveisPicked.reduce((a, b) => ( a.preu + b.preu));
-      let totalServeis = this.serveisPicked.reduce((accumulator, currentItem) => {
-          return accumulator + currentItem.preu;
-        }, 0);
+      let totalServeis = this.serveisPicked.reduce(
+        (accumulator, currentItem) => { return accumulator + currentItem.preu; }, 0);
       // console.log("Total serveis: "+totalServeis);
-
-      this.showServeisweb == true ? (this.preuTotal = totalServeis + totalServeisWeb) : (this.preuTotal = totalServeis);
+      this.totalServeisWeb = this.serveis[0].langs * this.serveis[0].pags * 30;
+      this.showServeisweb == true ? (this.preuTotal = totalServeis + this.totalServeisWeb) : (this.preuTotal = totalServeis);
       //console.log(this.preuTotal);
       this.updateCurrentPresu();
       return this.preuTotal;
@@ -126,17 +111,15 @@ methods: {
       let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       return date + ' ' + time;
     },
-    updateFromUrl() {
-      /*
+
+updateFromUrl() {
       this.serveis[0].selected = this.$route.query.web;
       this.serveis[1].selected = this.$route.query.seo;
       this.serveis[2].selected = this.$route.query.ads;
-      */
     },
 
 updateUrl(){
       // creating the parametric url
-      /*
 this.serveis[0].selected == true
 ? this.$router.push({path:'/home', query:{
   // hash: this.idPressu,
@@ -152,10 +135,9 @@ this.serveis[0].selected == true
   ads: this.serveis[2].selected,
   total: this.preuTotal,
   }})
-*/
   }
-
   },
+  // end methods:
 
 
 };
