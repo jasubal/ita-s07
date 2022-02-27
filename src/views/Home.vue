@@ -20,10 +20,6 @@ export default {
         { servei: "Consultoria SEO", slug:"seo", preu: 300, selected: false },
         { servei: "Campanya de Publicitat", slug:"ads", preu: 400, selected: false },
       ],
-      serveisweb: [
-        { nom: "idioma", slug:"langs", num: 1 },
-        { nom: "pages",  slug:"pags",  num: 1 },
-      ],
       serveisPicked: [],
       currentPressu: [],
       pressusList: [],
@@ -63,44 +59,49 @@ watch: {
 */
 },
 mounted() {
-  console.log('dom Home mounted!')
-  this.updateFromUrl();
+//console.log('dom Home mounted!')
+//this.calculaPreuTotal()
+//this.updateFromUrl();
 //this.calculaPreuTotal()
 //this.updateUrl();
 },
 updated() {
-  console.log('dom Home updated!')
+//console.log('dom Home updated!')
 //this.calculaPreuTotal();
   this.updateUrl();
 // this.updateFromUrl();
 },
 methods: {
   updateCurrentPresu() {
+
     let dataAvui = this.getCurrentDateTime();
     this.idPressu = this.getUniqueId();
     this.currentPressu = [];
     //this.calculaPreuTotal();
     this.currentPressu.push({ id:this.idPressu, nomPressu: this.nomPressu, nomClient: this.nomClient, date: dataAvui, preuTotal: this.preuTotal, });
     this.serveis.map((servei) => { servei.selected ? this.currentPressu.push(servei) : 0 });
+
       //console.log(this.currentPressu);
   },
   calculaPreuTotal() {
     this.preuTotal = 0;
     this.serveisPicked = [];
     this.serveisPicked = this.serveis.filter((item) => item.selected == true);
-      //console.log(this.serveisPicked);
+    // console.log(this.serveisPicked);
     let totalServeis = this.serveisPicked.reduce(
         (accumulator, currentItem) => { return accumulator + currentItem.preu; }, 0);
-    // console.log("Total serveis: "+totalServeis);
+    //console.log("Total serveis: "+totalServeis);
     this.calculaServeisWeb();
     this.showServeisweb == true ? (this.preuTotal = totalServeis + this.totalServeisWeb) : (this.preuTotal = totalServeis);
     this.preuTotal = totalServeis + this.totalServeisWeb;
-    console.log(this.preuTotal);
     this.updateCurrentPresu();
+    //console.log(this.preuTotal);
     return this.preuTotal;
     },
 calculaServeisWeb() {
-  this.totalServeisWeb = this.serveis[0].langs * this.serveis[0].pags * 30;
+  this.showServeisweb == true ?
+  this.totalServeisWeb = this.serveis[0].langs * this.serveis[0].pags * 30
+  : this.totalServeisWeb = 0;
   //return this.totalServeisWeb;
 },
     check(e,idx) {
@@ -145,11 +146,11 @@ updateFromUrl() {
       this.$route.query.web === "true" ? this.showServeisweb = true : this.showServeisweb = false;
       this.serveis[0].langs    = this.$route.query.langs;
       this.serveis[0].pags     = this.$route.query.pags;
+      this.calculaServeisWeb();
       this.serveis[1].selected = this.$route.query.seo;
       this.serveis[2].selected = this.$route.query.ads;
-      this.calculaPreuTotal();
+      //this.calculaPreuTotal();
       //this.preuTotal = this.$route.query.total;
-
 
     },
 
