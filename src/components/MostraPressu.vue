@@ -20,26 +20,22 @@ export default {
       let resum = this.currentPressu[0];
 
       output += '<h3 class="tit">Resum</h3>';
-      resum.nomPressu !== ""
-        ? (output += "Nom pressupost: " + resum.nomPressu + "</br>") : 0;
-      resum.nomClient !== ""
-        ? (output += "Client: " + resum.nomClient + "</br>") : 0;
       output += "Data: " + resum.date + "</br>";
+      resum.nomPressu !== ""
+      ? (output += "Nom pressupost: " + resum.nomPressu + "</br>") : 0;
+      resum.nomClient !== ""
+      ? (output += "Client: " + resum.nomClient + "</br>") : 0;
 
       output += '<h3 class="tit">Productes</h3>';
-
-      this.currentPressu.forEach((item, index) => {
-
-      if (index > 0) {
-          if (item.langs > 0) {
-            let totalServeisWeb = item.langs * item.pags * 30;
-            output += item.servei + ": " + item.preu + "€<br>";
-            output += item.langs + " idioma/es + " + item.pags + " pàgina/es : " + totalServeisWeb + "€<br>";
-          } else { output += item.servei + ": " + item.preu + "€<br>"; }
+      this.currentPressu.forEach((servei, idx) => {
+      if (idx > 0) {
+          if (servei.langs > 0) {
+            //let totalServeisWeb = servei.langs * servei.pags * 30;
+            output += servei.servei + ": " + servei.preu + "€<br>";
+            output += servei.langs + " idioma/es + " + servei.pags + " pàgina/es : " + resum.totalServeisWeb + "€<br>";
+          } else { output += servei.servei + ": " + servei.preu + "€<br>"; }
         }
-
       });
-
       output += "<br>";
       output += "<strong>Preu Total: " + resum.preuTotal + "€</strong></br>";
 

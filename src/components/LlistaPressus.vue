@@ -10,13 +10,12 @@
 <div class="c-group">
     <button @click="sortBy='nomPressuAZ'">A-Z</button>
     <button @click="sortBy='nomPressuZA'">Z-A</button>
-    <button @click="sortBy='preuTotalMenor'">Preu ↑</button>
-    <button @click="sortBy='preuTotalMajor'">Preu ↓</button>
+    <button @click="sortBy='preuTotalMenor'">Preu↑</button>
+    <button @click="sortBy='preuTotalMajor'">Preu↓</button>
     <button @click="sortBy='date'">Data</button>
     <button @click="sortBy=null">RESET</button>
 </div>
 <ul id="list-items">
-
     <li class="pressItem" v-for="(item,index ) in changeList()" :key='index' >
         <div v-html="renderPressu(item)"></div>
      </li>
@@ -49,18 +48,19 @@ export default {
         }
     },
     updated() {
-        console.log('dom updated!')
+        //console.log('dom LlistaPressus updated!')
      },
     mounted() {
-        console.log('dom mounted!')
+        //console.log('dom LlistaPressus mounted!')
      },
-    watch: {
+
+watch: {
 
     pressusListLength: function(){
         this.sortBy=null;
         this.changeList();
-         console.log("pressusListLength watch sortBy="+this.sortBy);
-        //this.sortList();
+        // console.log("pressusListLength watch sortBy="+this.sortBy);
+        // this.sortList();
     },
     sortBy: function(){
         this.sortList();
@@ -102,6 +102,7 @@ changeList(){
 sortList(){
     this.pressusList2sort = this.pressusList;
 
+
 if (this.sortBy === 'nomPressuAZ') {
     this.pressusList2sort.sort((a,b)=>(
         a.pressupost[0].nomPressu.toLowerCase() > b.pressupost[0].nomPressu.toLowerCase() ? 1 : -1
@@ -135,7 +136,7 @@ if (this.sortBy === 'nomPressuAZ') {
     this.pressusList2sort.sort((a,b)=>(
         a.pressupost[0].date > b.pressupost[0].date ? 1 : -1
     ));
-    console.log('sort by preuTotalMenor');
+    console.log('sorted by date');
 
 } else if (this.sortBy === 'searchTerm') {
       console.log('sort by searchTerm');
@@ -155,6 +156,8 @@ else {
     console.log('back to original list');
       this.changeList();
 }
+
+
 },
 handleInput() {
       console.log(this.searchInput);
@@ -194,6 +197,7 @@ h2 span { font-size: 0.6em; }
     align-items: center;
     flex-direction: column;
     padding-inline-start: 24px;
+    overflow-y: scroll;
 }
 
 li.pressItem {
@@ -213,6 +217,13 @@ li.pressItem {
 }
 
 @media (min-width: 75em) {
-
+#llistat ul {
+    flex-wrap: wrap;
+    align-items: center;
+    flex-direction: column;
+    padding-inline-start: 24px;
+    overflow-y: scroll;
+    max-height: 50vh;
+}
  }
 </style>
