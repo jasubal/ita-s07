@@ -59,8 +59,8 @@ watch: {
     pressusListLength: function(){
         this.sortBy=null;
         this.changeList();
-         console.log("pressusListLength watch sortBy="+this.sortBy);
-        //this.sortList();
+        // console.log("pressusListLength watch sortBy="+this.sortBy);
+        // this.sortList();
     },
     sortBy: function(){
         this.sortList();

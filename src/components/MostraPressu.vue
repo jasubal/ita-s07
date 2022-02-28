@@ -30,9 +30,9 @@ export default {
       this.currentPressu.forEach((servei, idx) => {
       if (idx > 0) {
           if (servei.langs > 0) {
-            let totalServeisWeb = servei.langs * servei.pags * 30;
+            //let totalServeisWeb = servei.langs * servei.pags * 30;
             output += servei.servei + ": " + servei.preu + "€<br>";
-            output += servei.langs + " idioma/es + " + servei.pags + " pàgina/es : " + totalServeisWeb + "€<br>";
+            output += servei.langs + " idioma/es + " + servei.pags + " pàgina/es : " + resum.totalServeisWeb + "€<br>";
           } else { output += servei.servei + ": " + servei.preu + "€<br>"; }
         }
       });
