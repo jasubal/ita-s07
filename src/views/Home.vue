@@ -192,7 +192,7 @@ this.serveis[2].selected = (this.$route.query.ads === "true" ? true : false);
 
 <template>
   <div id="v-home" class="maxW1300">
-    <div id="ruta">urlQuery: {{ urlQuery }}</div>
+    <div id="ruta">{{  }}</div>
 
     <div id="c-formulari" class="flex one three-800 center">
       <MostraPressu :currentPressu="currentPressu" :preuTotal="preuTotal" />
