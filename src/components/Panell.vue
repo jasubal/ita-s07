@@ -16,7 +16,7 @@
 <Modal :lab1="modals[1].lab1" :lab2="modals[1].lab2" :msg="modals[1].msg" ></Modal>
 </li>
 </ul>
-<!--idiomes: {{ serveis[0].pags}} - pagines: {{ serveis[0].langs }}-->
+<!-- idiomes: {{ serveis[0].pags}} - pagines: {{ serveis[0].langs }} -->
 </div>
 </template>
 
@@ -43,7 +43,7 @@ modals: [
             //console.log(this.serveis[0]);
         },
         subtract(item) {
-             this.serveis[0][item] < 2 ?  this.serveis[0][item] = 1 :  this.serveis[0][item]--;
+             this.serveis[0][item] < 1 ?  this.serveis[0][item] = 1 :  this.serveis[0][item]--;
             this.$emit("serveis", this.serveis);
             //console.log(this.serveis[0]);
         },

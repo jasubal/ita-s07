@@ -23,7 +23,6 @@ export default {
       serveisPicked: [],
       currentPressu: [],
       pressusList: [],
-      pressusListLength: 0,
       totalServeis: 0,
       showServeisweb: false,
       totalServeisWeb: 0,
@@ -35,53 +34,54 @@ export default {
     };
   },
   watch: {
-    //'$route' (to, from) { this.updateFromUrl(); },
     serveis: {
       handler: function () {
         this.calculaPreuTotal;
         this.updateUrl();
-        //this.updateCurrentPresu();
         },
       deep: true
     },
     nomClient: function () { this.calculaPreuTotal; },
     nomPressu: function () { this.calculaPreuTotal; },
-
-    preuTotal : function() {
-    // this.calculaPreuTotal;
-    console.log("preuTotal: watch preuTotal: "+ this.preuTotal);
-    },
   },
   created() {
-    console.log('dom Home created!');
-   (Object.keys(this.$route.query).length !== 0) ? this.updateFromUrl() : this.updateCurrentPresu();
-
+    //console.log('dom Home created!');
+    (Object.keys(this.$route.query).length !== 0) ? this.updateFromUrl() : this.updateCurrentPresu();
   },
+   mounted() {
+    //console.log('dom Home mounted!');
+    this.$refs.nomClient.focus();
+  },
+  /*
   beforeMount() {
     //console.log('dom Home beforeMount!');
   },
-  mounted() {
-    console.log('dom Home mounted!');
-    this.$refs.nomClient.focus();
 
-
-
-    //this.updateUrl();
-  },
   updated() {
-    console.log('dom Home updated!')
+    //console.log('dom Home updated!')
     //this.calculaPreuTotal
     //this.calculaPreuTotal;
     //this.updateFromUrl();
   },
+  */
   computed: {
       calculaPreuTotal: function(){
-      console.log("calculaPreuTotal computed:");
+      //console.log("calculaPreuTotal computed:");
       //this.preuTotal = 0;
       //console.log("Total serveis: "+totalServeis);
-      this.calculaServeis();
-      this.calculaServeisWeb();
-      //this.showServeisweb == true ? (this.preuTotal = this.totalServeis + this.totalServeisWeb) : (this.preuTotal = this.totalServeis);
+
+      ///this.calculaServeis();
+      //console.log(...this.serveis);
+      this.serveisPicked = this.serveis.filter((item) => item.selected===true);
+      this.totalServeis = this.serveisPicked.reduce(
+      (accumulator, currentItem) => { return accumulator + currentItem.preu; }, 0);
+      // end this.calculaServeis();
+      /// this.calculaServeisWeb();
+      this.showServeisweb ?
+      this.totalServeisWeb = this.serveis[0].langs * this.serveis[0].pags * 30 : 0
+      //this.totalServeisWeb = 0; this.serveis[0].langs = 0; this.serveis[0].pags = 0;
+      // end this.calculaServeisWeb();
+
       this.preuTotal = this.totalServeis + this.totalServeisWeb;
       this.updateCurrentPresu();
       return this.preuTotal;
@@ -99,24 +99,6 @@ export default {
       this.serveis.map((servei) => { servei.selected ? this.currentPressu.push(servei) : 0 });
       //console.log(...this.currentPressu);
     },
-    calculaServeis(){
-      //this.serveisPicked = [];
-      console.log(...this.serveis);
-      this.serveisPicked = this.serveis.filter((item) => item.selected===true);
-      console.log("serveisPicked: ");
-      console.log(...this.serveisPicked);
-      this.totalServeis = this.serveisPicked.reduce(
-      (accumulator, currentItem) => { return accumulator + currentItem.preu; }, 0);
-
-    },
-    calculaServeisWeb() {
-      if ( this.showServeisweb) {
-        this.totalServeisWeb = this.serveis[0].langs * this.serveis[0].pags * 30
-      } else {
-        this.totalServeisWeb = 0; this.serveis[0].langs = 0; this.serveis[0].pags = 0;
-      }
-      //return this.totalServeisWeb;
-    },
     check(e, idx) {
       this.serveis[idx].selected = e.target.checked;
       console.log("↓ chek/unchek ↓ ");
@@ -131,15 +113,10 @@ export default {
       if (this.nomPressu === "" || this.nomClient === "" || this.preuTotal === 0) {
         this.alert1 = true;
       } else {
-        // la copia con JSON
-        // https://www.kuworking.com/javascript-como-copiar-arrays
-        // const myJSONCopy = JSON.parse(JSON.stringify(this.currentPressu))
+        // https://www.kuworking.com/javascript-como-copiar-arrays la copia con JSON
         const pressupost = JSON.parse(JSON.stringify(this.currentPressu))
-        //const pressupost = [];
         this.pressusList.push({ pressupost });
         console.log(this.pressusList);
-        this.pressusListLength = this.pressusList.length;
-        //this.sortBy = null;
       }
     },
     getUniqueId() {
@@ -156,7 +133,7 @@ export default {
 
 updateFromUrl() {
 this.urlQuery = this.$route.query;
-console.log("urlQuery Total is : "+ this.urlQuery.total);
+// console.log("urlQuery Total is : "+ this.urlQuery.total);
 this.serveis[0].selected = (this.$route.query.web === "true" ? true : false);
 this.$route.query.web === "true" ? this.showServeisweb = true : this.showServeisweb = false;
 this.serveis[0].langs = this.$route.query.langs;
@@ -164,23 +141,23 @@ this.serveis[0].pags = this.$route.query.pags;
 this.serveis[1].selected = (this.$route.query.seo === "true" ? true : false);
 this.serveis[2].selected = (this.$route.query.ads === "true" ? true : false);
 },
- updateUrl() {
-      // creating the parametric url
-      //this.calculaPreuTotal;
-      //this.updateCurrentPresu();
-      this.$router.push({
-        path: '/home', query: {
-          // hash: this.idPressu,
-          web:    this.serveis[0].selected,
-          langs:  this.serveis[0].langs,
-          pags:   this.serveis[0].pags,
-          seo:    this.serveis[1].selected,
-          ads:    this.serveis[2].selected,
-          //total:  this.preuTotal,
-        }
-      })
+updateUrl() {
+// creating the parametric url
+//this.calculaPreuTotal;
+//this.updateCurrentPresu();
+this.$router.push({
+  path: '/home', query: {
+    // hash: this.idPressu,
+    web:    this.serveis[0].selected,
+    langs:  this.serveis[0].langs,
+    pags:   this.serveis[0].pags,
+    seo:    this.serveis[1].selected,
+    ads:    this.serveis[2].selected,
+    //total:  this.preuTotal,
+  }
+})
 
-      this.urlQuery = this.$route.query;
+this.urlQuery = this.$route.query;
 
     }
   },
@@ -248,7 +225,7 @@ this.serveis[2].selected = (this.$route.query.ads === "true" ? true : false);
         </div>
       </form>
 
-      <LlistaPressus :pressusList="pressusList" :pressusListLength="pressusListLength" />
+      <LlistaPressus :pressusList="pressusList" />
     </div>
   </div>
 </template>

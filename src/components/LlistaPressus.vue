@@ -1,7 +1,7 @@
 <template>
 <div id="c-llistaPressus" class="c-modul">
 
-<div v-if="pressusList.length > 0 " id="llistat">
+<div v-if="pressusList.length>0" id="llistat">
 <h2>Listat de Pressupostos <span>({{pressusList.length}})</span></h2>
 <div class="c-group">
 <input id="searchInput" @keyup="handleInput()" type="text" placeholder="Cerca pressupostos..." v-model="searchInput" />
@@ -36,7 +36,7 @@
 export default {
 
     name: "LlistaPressus",
-    props: ["pressusList","pressusListLength"],
+    props: ["pressusList"],
     data() {
         return {
             sortBy: null,
@@ -44,7 +44,6 @@ export default {
             pressusList2sort: [],
             pressusListReversed: [],
             pressusListResults: [],
-
         }
     },
     updated() {
@@ -56,7 +55,7 @@ export default {
 
 watch: {
 
-    pressusListLength: function(){
+    pressusList: function(){
         this.sortBy=null;
         this.changeList();
         // console.log("pressusListLength watch sortBy="+this.sortBy);
@@ -69,11 +68,10 @@ watch: {
 
 },
 onBeforeUpdate: function(){
-    console.log("onBeforeUpdate");
+    // console.log("onBeforeUpdate");
 },
 
 methods: {
-
 renderPressu(item) {
     let output = '';
     let resum = item.pressupost[0]
