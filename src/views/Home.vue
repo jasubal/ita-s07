@@ -16,9 +16,9 @@ export default {
       nomClient: '',
       nomPressu: '',
       serveis: [
-        { servei: "Pàgina web", slug: "web", preu: 500, selected: false, langs: 1, pags: 1, },
-        { servei: "Consultoria SEO", slug: "seo", preu: 300, selected: false },
-        { servei: "Campanya de Publicitat", slug: "ads", preu: 400, selected: false },
+        { selected: false, servei: "Pàgina web", slug: "web", preu: 500,  langs: 1, pags: 1 },
+        { selected: false, servei: "Consultoria SEO", slug: "seo", preu: 300 },
+        { selected: false, servei: "Campanya de Publicitat", slug: "ads", preu: 400 },
       ],
       serveisPicked: [],
       currentPressu: [],
@@ -35,74 +35,79 @@ export default {
     };
   },
   watch: {
-    // '$route' (to, from) { this.updateFromUrl(); },
+    //'$route' (to, from) { this.updateFromUrl(); },
     serveis: {
       handler: function () {
-        this.calculaPreuTotal();
+        this.calculaPreuTotal;
         this.updateUrl();
+        //this.updateCurrentPresu();
         },
       deep: true
     },
-    nomClient: function () { this.calculaPreuTotal(); },
-    nomPressu: function () { this.calculaPreuTotal(); },
-    /*
-      preuTotal : function() {
-    this.calculaPreuTotal();
+    nomClient: function () { this.calculaPreuTotal; },
+    nomPressu: function () { this.calculaPreuTotal; },
+
+    preuTotal : function() {
+    // this.calculaPreuTotal;
     console.log("preuTotal: watch preuTotal: "+ this.preuTotal);
-    //this.urlQuery = this.$route.query;
-    //console.log(this.urlQuery);
-      },
-      totalServeisWeb: function() {
-    this.calculaPreuTotal();
-    //console.log("totalServeisWeb: watch preuTotal: "+ this.preuTotal);
-      },
-      $route: function() {
-    this.urlQuery = this.$route.query;
-    console.log("urlQuery is:");
-    console.log(this.urlQuery);
-      }
-    */
+    },
+  },
+  created() {
+    console.log('dom Home created!');
+   (Object.keys(this.$route.query).length !== 0) ? this.updateFromUrl() : this.updateCurrentPresu();
+
+  },
+  beforeMount() {
+    //console.log('dom Home beforeMount!');
   },
   mounted() {
-    //console.log('dom Home mounted!')
-    //this.updateFromUrl()
-    //this.calculaPreuTotal()
-    //this.updateFromUrl();
+    console.log('dom Home mounted!');
+    this.$refs.nomClient.focus();
 
-    //this.calculaPreuTotal()
+
+
     //this.updateUrl();
   },
   updated() {
-    //console.log('dom Home updated!')
-    //this.calculaPreuTotal();
-    // this.updateFromUrl();
+    console.log('dom Home updated!')
+    //this.calculaPreuTotal
+    //this.calculaPreuTotal;
+    //this.updateFromUrl();
+  },
+  computed: {
+      calculaPreuTotal: function(){
+      console.log("calculaPreuTotal computed:");
+      //this.preuTotal = 0;
+      //console.log("Total serveis: "+totalServeis);
+      this.calculaServeis();
+      this.calculaServeisWeb();
+      //this.showServeisweb == true ? (this.preuTotal = this.totalServeis + this.totalServeisWeb) : (this.preuTotal = this.totalServeis);
+      this.preuTotal = this.totalServeis + this.totalServeisWeb;
+      this.updateCurrentPresu();
+      return this.preuTotal;
+      //console.log(this.preuTotal);
+    },
   },
   methods: {
     updateCurrentPresu() {
       let dataAvui = this.getCurrentDateTime();
       this.idPressu = this.getUniqueId();
       this.currentPressu = [];
-      //this.calculaPreuTotal();
-this.currentPressu.push({
-id:this.idPressu, nomPressu:this.nomPressu, nomClient:this.nomClient, date:dataAvui, totalServeis:this.totalServeis,totalServeisWeb:this.totalServeisWeb, preuTotal:this.preuTotal, });
+      //this.calculaPreuTotal;
+      this.currentPressu.push({
+      id:this.idPressu, nomPressu:this.nomPressu, nomClient:this.nomClient, date:dataAvui, totalServeis:this.totalServeis,totalServeisWeb:this.totalServeisWeb, preuTotal:this.preuTotal, });
       this.serveis.map((servei) => { servei.selected ? this.currentPressu.push(servei) : 0 });
       //console.log(...this.currentPressu);
-
     },
-    calculaPreuTotal() {
-      this.preuTotal = 0;
-      this.serveisPicked = [];
-      this.serveisPicked = this.serveis.filter((item) => item.selected == true);
-      // console.log(this.serveisPicked);
+    calculaServeis(){
+      //this.serveisPicked = [];
+      console.log(...this.serveis);
+      this.serveisPicked = this.serveis.filter((item) => item.selected===true);
+      console.log("serveisPicked: ");
+      console.log(...this.serveisPicked);
       this.totalServeis = this.serveisPicked.reduce(
-        (accumulator, currentItem) => { return accumulator + currentItem.preu; }, 0);
-      //console.log("Total serveis: "+totalServeis);
-      this.calculaServeisWeb();
-      this.showServeisweb == true ? (this.preuTotal = this.totalServeis + this.totalServeisWeb) : (this.preuTotal = this.totalServeis);
-      this.preuTotal = this.totalServeis + this.totalServeisWeb;
-      this.updateCurrentPresu();
-      //console.log(this.preuTotal);
-      return this.preuTotal;
+      (accumulator, currentItem) => { return accumulator + currentItem.preu; }, 0);
+
     },
     calculaServeisWeb() {
       if ( this.showServeisweb) {
@@ -115,12 +120,12 @@ id:this.idPressu, nomPressu:this.nomPressu, nomClient:this.nomClient, date:dataA
     check(e, idx) {
       this.serveis[idx].selected = e.target.checked;
       console.log("↓ chek/unchek ↓ ");
-      //console.log(this.serveis[idx]);
+      console.log(this.serveis[idx]);
       this.serveis[idx] === 0 ? this.showServeisweb = true : this.showServeisweb = false;
       this.showServeisweb = this.serveis[0].selected;
       //console.log(this.showServeisweb);
       //console.log(selected, e.target.value );
-      this.calculaPreuTotal();
+      this.calculaPreuTotal;
     },
     addPressu() {
       if (this.nomPressu === "" || this.nomClient === "" || this.preuTotal === 0) {
@@ -151,22 +156,17 @@ id:this.idPressu, nomPressu:this.nomPressu, nomClient:this.nomClient, date:dataA
 
 updateFromUrl() {
 this.urlQuery = this.$route.query;
-this.serveis[0].selected = this.$route.query.web;
+console.log("urlQuery Total is : "+ this.urlQuery.total);
+this.serveis[0].selected = (this.$route.query.web === "true" ? true : false);
 this.$route.query.web === "true" ? this.showServeisweb = true : this.showServeisweb = false;
 this.serveis[0].langs = this.$route.query.langs;
 this.serveis[0].pags = this.$route.query.pags;
-this.serveis[1].selected = this.$route.query.seo;
-this.serveis[2].selected = this.$route.query.ads;
-//this.calculaServeisWeb();
-//this.calculaPreuTotal();
-//this.updateCurrentPresu()
-//this.calculaPreuTotal();
-//this.updateCurrentPresu()
-//this.preuTotal = this.$route.query.total;
-    },
-    updateUrl() {
+this.serveis[1].selected = (this.$route.query.seo === "true" ? true : false);
+this.serveis[2].selected = (this.$route.query.ads === "true" ? true : false);
+},
+ updateUrl() {
       // creating the parametric url
-      //this.calculaPreuTotal();
+      //this.calculaPreuTotal;
       //this.updateCurrentPresu();
       this.$router.push({
         path: '/home', query: {
@@ -176,8 +176,7 @@ this.serveis[2].selected = this.$route.query.ads;
           pags:   this.serveis[0].pags,
           seo:    this.serveis[1].selected,
           ads:    this.serveis[2].selected,
-
-          total:  this.preuTotal,
+          //total:  this.preuTotal,
         }
       })
 
@@ -193,7 +192,7 @@ this.serveis[2].selected = this.$route.query.ads;
 
 <template>
   <div id="v-home" class="maxW1300">
-    <div id="ruta">{{ }}</div>
+    <div id="ruta">urlQuery: {{ urlQuery }}</div>
 
     <div id="c-formulari" class="flex one three-800 center">
       <MostraPressu :currentPressu="currentPressu" :preuTotal="preuTotal" />
@@ -202,7 +201,7 @@ this.serveis[2].selected = this.$route.query.ads;
         <h2>Calculadora de Pressupostos</h2>
         <div id="f-camps">
           <div class="f-group">
-            <input type="text" v-model="nomClient" placeholder="Nom client" />
+            <input type="text" v-model="nomClient" placeholder="Nom client" ref="nomClient" />
           </div>
           <div class="f-group">
             <input type="text" v-model="nomPressu" placeholder="Nom Pressupost" />
@@ -256,6 +255,7 @@ this.serveis[2].selected = this.$route.query.ads;
 
 
 <style scoped>
+#ruta {color: red;}
 #v-home {
   padding: 0;
 }
