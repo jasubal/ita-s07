@@ -11,8 +11,7 @@ export default {
   components: { Panell, Alert, MostraPressu, LlistaPressus },
   data() {
     return {
-      urlQuery: '',
-      idPressu: '',
+      //urlQuery: '',
       nomClient: '',
       nomPressu: '',
       serveis: [
@@ -20,12 +19,11 @@ export default {
         { selected: false, servei: "Consultoria SEO", slug: "seo", preu: 300 },
         { selected: false, servei: "Campanya de Publicitat", slug: "ads", preu: 400 },
       ],
-      serveisPicked: [],
       currentPressu: [],
       pressusList: [],
-      totalServeis: 0,
       showServeisweb: false,
       totalServeisWeb: 0,
+      totalServeis: 0,
       preuTotal: 0,
       alert1: false,
       labAlert1: "Alerta",
@@ -52,36 +50,13 @@ export default {
     //console.log('dom Home mounted!');
     this.$refs.nomClient.focus();
   },
-  /*
-  beforeMount() {
-    //console.log('dom Home beforeMount!');
-  },
-
-  updated() {
-    //console.log('dom Home updated!')
-    //this.calculaPreuTotal
-    //this.calculaPreuTotal;
-    //this.updateFromUrl();
-  },
-  */
   computed: {
-      calculaPreuTotal: function(){
-      //console.log("calculaPreuTotal computed:");
-      //this.preuTotal = 0;
-      //console.log("Total serveis: "+totalServeis);
-
-      ///this.calculaServeis();
-      //console.log(...this.serveis);
-      this.serveisPicked = this.serveis.filter((item) => item.selected===true);
-      this.totalServeis = this.serveisPicked.reduce(
+    calculaPreuTotal: function(){
+      const serveisPicked = this.serveis.filter((item) => item.selected===true);
+      this.totalServeis = serveisPicked.reduce(
       (accumulator, currentItem) => { return accumulator + currentItem.preu; }, 0);
-      // end this.calculaServeis();
-      /// this.calculaServeisWeb();
       this.showServeisweb ?
       this.totalServeisWeb = this.serveis[0].langs * this.serveis[0].pags * 30 : 0
-      //this.totalServeisWeb = 0; this.serveis[0].langs = 0; this.serveis[0].pags = 0;
-      // end this.calculaServeisWeb();
-
       this.preuTotal = this.totalServeis + this.totalServeisWeb;
       this.updateCurrentPresu();
       return this.preuTotal;
@@ -89,24 +64,26 @@ export default {
     },
   },
   methods: {
-    updateCurrentPresu() {
+    updateCurrentPresu(option) {
+      if (option === "clear") {
+        this.currentPressu = [];
+      } else {
       let dataAvui = this.getCurrentDateTime();
-      this.idPressu = this.getUniqueId();
+      let idPressu = this.getUniqueId();
       this.currentPressu = [];
       //this.calculaPreuTotal;
       this.currentPressu.push({
-      id:this.idPressu, nomPressu:this.nomPressu, nomClient:this.nomClient, date:dataAvui, totalServeis:this.totalServeis,totalServeisWeb:this.totalServeisWeb, preuTotal:this.preuTotal, });
+      id:idPressu, nomPressu:this.nomPressu, nomClient:this.nomClient, date:dataAvui, totalServeis:this.totalServeis,totalServeisWeb:this.totalServeisWeb, preuTotal:this.preuTotal, });
       this.serveis.map((servei) => { servei.selected ? this.currentPressu.push(servei) : 0 });
       //console.log(...this.currentPressu);
+      }
     },
-    check(e, idx) {
+    check(e,idx) {
       this.serveis[idx].selected = e.target.checked;
-      console.log("↓ chek/unchek ↓ ");
-      console.log(this.serveis[idx]);
+      //console.log("↓ chek/unchek ↓ ");
+      //console.log(this.serveis[idx]);
       this.serveis[idx] === 0 ? this.showServeisweb = true : this.showServeisweb = false;
       this.showServeisweb = this.serveis[0].selected;
-      //console.log(this.showServeisweb);
-      //console.log(selected, e.target.value );
       this.calculaPreuTotal;
     },
     addPressu() {
@@ -116,7 +93,7 @@ export default {
         // https://www.kuworking.com/javascript-como-copiar-arrays la copia con JSON
         const pressupost = JSON.parse(JSON.stringify(this.currentPressu))
         this.pressusList.push({ pressupost });
-        console.log(this.pressusList);
+        this.resetForm();
       }
     },
     getUniqueId() {
@@ -130,39 +107,48 @@ export default {
       let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       return date + ' ' + time;
     },
+resetForm() {
+  this.$router.push({path: '/home', query: {}});
+  this.$refs.form.reset();
+  this.nomClient = ''; this.nomPressu = '';
+  this.serveis.map((servei) => { servei.selected = false; });
+  this.serveis[0].langs = 1;
+  this.serveis[0].pags = 1;
+  this.showServeisweb = false;
+  this.totalServeisWeb = 0;
+  //this.totalServeis= 0;
+  //this.showServeisweb = false;
+  /*
+  this.showServeisweb = false;
+  this.serveis[0].selected = false;
+  this.serveis[0].langs = false;
+  this.serveis[0].pags = false;
+  this.serveis[1].selected = false;
+  this.serveis[2].selected = false;
+  */
 
+  },
 updateFromUrl() {
-this.urlQuery = this.$route.query;
-// console.log("urlQuery Total is : "+ this.urlQuery.total);
-this.serveis[0].selected = (this.$route.query.web === "true" ? true : false);
-this.$route.query.web === "true" ? this.showServeisweb = true : this.showServeisweb = false;
-this.serveis[0].langs = this.$route.query.langs;
-this.serveis[0].pags = this.$route.query.pags;
-this.serveis[1].selected = (this.$route.query.seo === "true" ? true : false);
-this.serveis[2].selected = (this.$route.query.ads === "true" ? true : false);
+//this.urlQuery = this.$route.query;
+  this.serveis[0].selected = (this.$route.query.web === "true" ? true : false);
+  this.$route.query.web === "true" ? this.showServeisweb = true : this.showServeisweb = false;
+  this.serveis[0].langs = this.$route.query.langs;
+  this.serveis[0].pags = this.$route.query.pags;
+  this.serveis[1].selected = (this.$route.query.seo === "true" ? true : false);
+  this.serveis[2].selected = (this.$route.query.ads === "true" ? true : false);
 },
 updateUrl() {
-// creating the parametric url
-//this.calculaPreuTotal;
-//this.updateCurrentPresu();
 this.$router.push({
   path: '/home', query: {
-    // hash: this.idPressu,
-    web:    this.serveis[0].selected,
-    langs:  this.serveis[0].langs,
-    pags:   this.serveis[0].pags,
-    seo:    this.serveis[1].selected,
-    ads:    this.serveis[2].selected,
-    //total:  this.preuTotal,
+  web: this.serveis[0].selected, langs: this.serveis[0].langs, pags: this.serveis[0].pags,
+  seo: this.serveis[1].selected,
+  ads: this.serveis[2].selected,
   }
 })
-
-this.urlQuery = this.$route.query;
-
+//this.urlQuery = this.$route.query;
     }
   },
   // end methods:
-
 
 };
 </script>
@@ -174,7 +160,7 @@ this.urlQuery = this.$route.query;
     <div id="c-formulari" class="flex one three-800 center">
       <MostraPressu :currentPressu="currentPressu" :preuTotal="preuTotal" />
 
-      <form id="c-form" class="flex one center c-modul">
+      <form id="c-form" class="flex one center c-modul" ref="form">
         <h2>Calculadora de Pressupostos</h2>
         <div id="f-camps">
           <div class="f-group">
