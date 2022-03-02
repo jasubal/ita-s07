@@ -40,12 +40,12 @@ modals: [
         add(item) {
             this.serveis[0][item]++;
             this.$emit("serveis", this.serveis);
-            //console.log(this.serveis[0]);
+            console.log(this.serveis[0]);
         },
         subtract(item) {
-             this.serveis[0][item] < 1 ?  this.serveis[0][item] = 1 :  this.serveis[0][item]--;
+             this.serveis[0][item] <= 1 ?  this.serveis[0][item] = 1 :  this.serveis[0][item]--;
             this.$emit("serveis", this.serveis);
-            //console.log(this.serveis[0]);
+            console.log(this.serveis[0]);
         },
     },
 }

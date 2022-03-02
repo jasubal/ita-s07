@@ -79,6 +79,9 @@ export default {
       }
     },
     check(e,idx) {
+        if (this.serveis[0].selected== false) {
+        this.serveis[0].langs = 1; this.serveis[0].pags = 1; this.totalServeisWeb = 0;
+      }
       this.serveis[idx].selected = e.target.checked;
       //console.log("↓ chek/unchek ↓ ");
       //console.log(this.serveis[idx]);
@@ -132,7 +135,14 @@ updateFromUrl() {
 //this.urlQuery = this.$route.query;
   this.serveis[0].selected = (this.$route.query.web === "true" ? true : false);
   this.$route.query.web === "true" ? this.showServeisweb = true : this.showServeisweb = false;
-  this.serveis[0].langs = this.$route.query.langs;
+  if ( this.$route.query.web === "false") {
+  this.serveis[0].langs = 1;
+  this.serveis[0].pags = 1;
+  this.totalServeisWeb = 0;
+  } else {
+      this.serveis[0].langs = this.$route.query.langs;
+      this.serveis[0].pags = this.$route.query.pags;
+  }
   this.serveis[0].pags = this.$route.query.pags;
   this.serveis[1].selected = (this.$route.query.seo === "true" ? true : false);
   this.serveis[2].selected = (this.$route.query.ads === "true" ? true : false);
