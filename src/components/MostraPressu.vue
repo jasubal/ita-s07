@@ -1,4 +1,5 @@
 <template>
+
   <div id="c-mostraPressu" class="c-modul">
     <div v-if="preuTotal > 1" id="elPressu">
       <h2>Pressupost Actual</h2>
@@ -6,7 +7,6 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   name: "MostraPressu",

@@ -1,11 +1,10 @@
 
 <script>
+import { markRaw } from "vue";
 import Panell from "../components/Panell.vue";
 import Alert from "../components/Alert.vue";
 import MostraPressu from "../components/MostraPressu.vue";
 import LlistaPressus from "../components/LlistaPressus.vue";
-
-
 export default {
   name: "Home",
   components: { Panell, Alert, MostraPressu, LlistaPressus },
@@ -226,7 +225,6 @@ this.$router.push({
   </div>
 </template>
 
-
 <style scoped>
 #ruta {color: red;}
 #v-home {
@@ -243,6 +241,7 @@ form {
   display: flex;
   align-content: flex-start;
 }
+
 input,
 textarea {
   max-width: 18em;
@@ -269,4 +268,9 @@ label {
 
 @media (min-width: 75em) {
 }
+
+@media (min-width: 75em) {
+
+ }
+
 </style>

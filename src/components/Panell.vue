@@ -3,6 +3,7 @@
 
 <ul>
 <li><span>Idiomes:</span>
+
 <button @click="subtract('langs')" >-</button>
 <input v-model.number="serveis[0].langs">
 <button @click="add('langs')">+</button>
@@ -10,6 +11,7 @@
 </li>
 
 <li><span>Pàgines:</span>
+
 <button @click="subtract('pags')">-</button>
 <input v-model.number="serveis[0].pags">
 <button @click="add('pags')">+</button>
@@ -38,6 +40,7 @@ modals: [
     },
     methods: {
         add(item) {
+
             this.serveis[0][item]++;
             this.$emit("serveis", this.serveis);
             console.log(this.serveis[0]);
@@ -46,6 +49,7 @@ modals: [
              this.serveis[0][item] <= 1 ?  this.serveis[0][item] = 1 :  this.serveis[0][item]--;
             this.$emit("serveis", this.serveis);
             console.log(this.serveis[0]);
+
         },
     },
 }
