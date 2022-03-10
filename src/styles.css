@@ -50,7 +50,6 @@ h3 {font-size: 1.2em; margin: 0; padding: 0.6em 0 0; }
 a { color: #0988f7; }
 .comp { padding: 1em; }
 .c-modul {
-
 }
 .c-modul h2 {
     padding: 1em;
@@ -66,8 +65,12 @@ a { color: #0988f7; }
     }
 
 }
-
 @media (min-width: 75em) {
+    #app, #page {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
     #app-brand {
         position: absolute;
         height: 50px;
@@ -80,17 +83,15 @@ a { color: #0988f7; }
         left: 2em;
     }
     .c-modul {
-        min-height: 700px;
-        max-height: 100vh;
-        overflow-y: scroll;
         background: #FFF;
     }
     .c-modul h2 {
-        position: sticky;
         right: 0;
         z-index: 999;
         top: 0;
-        padding: 10px 1em 0;
+        padding: 10px;
         background: #FFF;
+        border-bottom: 4px solid #a7d5fc;
+        border-top: 6px solid #bebebe;
     }
 }

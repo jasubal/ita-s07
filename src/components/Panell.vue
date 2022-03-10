@@ -3,20 +3,22 @@
 
 <ul>
 <li><span>Idiomes:</span>
-<button @click="subtract(serveisweb[0])">-</button>
-<input v-model.number="serveisweb[0].num">
-<button @click="add(serveisweb[0])">+</button>
+
+<button @click="subtract('langs')" >-</button>
+<input v-model.number="serveis[0].langs">
+<button @click="add('langs')">+</button>
 <Modal :lab1="modals[0].lab1" :lab2="modals[0].lab2" :msg="modals[0].msg" ></Modal>
 </li>
 
 <li><span>Pàgines:</span>
-<button @click="subtract(serveisweb[1])">-</button>
-<input v-model.number="serveisweb[1].num">
-<button @click="add(serveisweb[1])">+</button>
+
+<button @click="subtract('pags')">-</button>
+<input v-model.number="serveis[0].pags">
+<button @click="add('pags')">+</button>
 <Modal :lab1="modals[1].lab1" :lab2="modals[1].lab2" :msg="modals[1].msg" ></Modal>
 </li>
 </ul>
-<!--idiomes: {{ serveisweb[0].num }} - pagines: {{ serveisweb[1].num }}-->
+<!-- idiomes: {{ serveis[0].pags}} - pagines: {{ serveis[0].langs }} -->
 </div>
 </template>
 
@@ -25,7 +27,7 @@ import Modal from "./Modal.vue";
 export default {
     name: "Panell",
     components: { Modal },
-    props: ["serveisweb"],
+    props: ["serveis"],
     data() {
         return {
 
@@ -38,21 +40,23 @@ modals: [
     },
     methods: {
         add(item) {
-            item.num++;
-            this.$emit("serveisweb", this.serveisweb);
-            //console.log(this.serveisweb);
+
+            this.serveis[0][item]++;
+            this.$emit("serveis", this.serveis);
+            console.log(this.serveis[0]);
         },
         subtract(item) {
-            item.num < 1 ? item.num = 1 : item.num--;
-            this.$emit("serveisweb", this.serveisweb);
-            //console.log(this.serveisweb);
+             this.serveis[0][item] <= 1 ?  this.serveis[0][item] = 1 :  this.serveis[0][item]--;
+            this.$emit("serveis", this.serveis);
+            console.log(this.serveis[0]);
+
         },
     },
 }
 </script>
 
 <style scoped>
-#c-panell { padding: 1em; display: flex; flex-direction: column; align-items: flex-start; border: 2px solid #e8e5e5; border-radius: 10px; }
+#c-panell { padding:0 1em; display: flex; flex-direction: column; align-items: flex-start; border: 2px solid #e8e5e5; border-radius: 10px; }
 li { margin: 0 0 .3em; display: flex; align-items: center; flex-wrap: nowrap; flex-direction: row; }
 li span { margin: 0 8px 0 0 }
 input { background: transparent; width: 3.2em; margin: 0 10px; text-align: center; }
